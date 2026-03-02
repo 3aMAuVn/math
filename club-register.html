@@ -564,6 +564,91 @@
         object-position: center;
       }
     }
+    /* =========================
+   MOBILE WIDTH / OVERFLOW FIX
+   Put this at the END of your <style> block
+   ========================= */
+
+/* Stop the page itself from becoming wider than the viewport */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Make sure your container never exceeds the viewport */
+.container {
+  max-width: 1040px;
+  width: min(1040px, calc(100% - 28px));
+}
+
+/* Every major section/card must stay within the container */
+.club-shell,
+.club-shell > * ,
+.club-card,
+.form-card,
+.info-card,
+.success-card,
+.info-grid,
+.club-options,
+.subgroup-grid,
+.two-col {
+  max-width: 100%;
+}
+
+/* CRITICAL: allow grid/flex children to shrink instead of forcing overflow */
+.club-shell > *,
+.info-grid > *,
+.club-options > *,
+.subgroup-grid > *,
+.two-col > * {
+  min-width: 0;
+}
+
+/* Prevent long text/labels from pushing width */
+.club-card, .form-card, .info-card, .success-card,
+.section-title, .section-sub,
+.club-option, .subgroup-item,
+.field-group label, .field-group input, .field-group textarea, .field-group select {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Buttons must wrap on mobile (no forced single-line overflow) */
+.hero-actions,
+.register-tools,
+.register-tools .tool-left,
+.register-tools .tool-right {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.btn {
+  max-width: 100%;
+  white-space: normal; /* allow wrapping if needed */
+}
+
+/* Table must scroll INSIDE its wrapper, not expand the page */
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Keep the table big, but contained within the scroll area */
+table {
+  width: 100%;
+  min-width: 1100px; /* desktop/tablet */
+  border-collapse: collapse;
+}
+
+/* Slightly reduce scroll width on phones */
+@media (max-width: 600px) {
+  table { min-width: 900px; }
+}
+@media (max-width: 420px) {
+  table { min-width: 820px; }
+}
   </style>
 </head>
 
@@ -749,7 +834,12 @@
               <p class="section-sub">
                 Add every student joining this booking. If you are registering siblings, list each child on a separate row.
               </p>
-
+              <p class="section-sub" style="margin-top:10px;">
+                <b>Registering more than one child?</b> Family discounts and sibling rewards may apply.
+              </p>
+              <div class="hero-actions" style="margin-top:10px;">
+                <a class="btn btn-secondary" href="pricing.html#maths-club-fees">Family discounts &amp; rewards</a>
+              </div>
               <div class="register-tools">
                 <div class="tool-left">
                   <button type="button" class="btn btn-outline" onclick="addRow()">+ Add another student</button>
