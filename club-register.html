@@ -675,7 +675,7 @@
                 novalidate>
 
             <input type="hidden" name="formType" value="club-register">
-            <input type="hidden" name="submittedAt" id="submittedAtField">
+            <!-- ✅ Removed submittedAt: Apps Script will write timestamp uniformly -->
             <input type="hidden" name="clubStream" id="clubStreamField">
             <input type="hidden" name="prepSubgroup" id="prepSubgroupField">
             <input type="hidden" name="students" id="studentsField">
@@ -893,7 +893,6 @@
     const competitionMode = document.getElementById('competitionMode');
     const competitionLocationGroup = document.getElementById('competitionLocationGroup');
     const competitionLocation = document.getElementById('competitionLocation');
-    const submittedAtField = document.getElementById('submittedAtField');
     const clubStreamField = document.getElementById('clubStreamField');
     const prepSubgroupField = document.getElementById('prepSubgroupField');
     const studentsField = document.getElementById('studentsField');
@@ -996,7 +995,6 @@
       }));
 
       return {
-        submittedAt: new Date().toISOString(),
         clubStream: selectedClub ? selectedClub.value : '',
         prepSubgroup: selectedPrepSubgroup ? selectedPrepSubgroup.value : '',
         students
@@ -1004,7 +1002,6 @@
     }
 
     clubRadios.forEach((radio) => radio.addEventListener('change', updateClubUI));
-
     if (competitionMode) competitionMode.addEventListener('change', updateCompetitionLocation);
 
     if (submitFrame) {
@@ -1045,7 +1042,6 @@
       }
 
       const payload = collectPayload();
-      submittedAtField.value = payload.submittedAt;
       clubStreamField.value = payload.clubStream;
       prepSubgroupField.value = payload.prepSubgroup;
       studentsField.value = JSON.stringify(payload.students);
