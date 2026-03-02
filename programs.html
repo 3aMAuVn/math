@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,23 +8,18 @@
   <meta name="description" content="Explore Magic Math Master programs for Prep–Year 12: 1-to-1 tutoring, small-group tutorials, Maths Club, and competition training. Calm, structured teaching that builds confidence step by step." />
   <link rel="canonical" href="https://www.magicmathmaster.com.au/programs.html" />
 
-  <!-- Optional OG tags -->
   <meta property="og:title" content="Programs | Magic Math Master" />
   <meta property="og:description" content="Prep–Year 12 programs: 1-to-1 tutoring, small groups, Maths Club, and competition training — calm structure, strong foundations, confidence first." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.magicmathmaster.com.au/programs.html" />
 
-  <!-- Shared site stylesheet -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 
-  <!-- Page-only overrides (Programs fun cards only) -->
   <style>
     html{ scroll-behavior: smooth; }
+    .brand-title span{ display:none !important; }
 
-    /* “Parents get” line (trust signal) */
     .parents-get{
       margin-top: 10px;
       padding: 10px 12px;
@@ -36,16 +31,11 @@
       line-height: 1.5;
     }
 
-    /* ==================================
-       Programs page: FUN titles + icons
-       (Scoped so it won't affect other pages)
-       ================================== */
     .page-programs .card{
       position: relative;
       overflow: hidden;
     }
 
-    /* soft playful blobs */
     .page-programs .card::before{
       content:"";
       position:absolute;
@@ -74,6 +64,8 @@
       align-items:center;
       gap:12px;
       margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
     }
     .page-programs .prog-ico{
       width: 40px;
@@ -89,7 +81,6 @@
       flex: 0 0 auto;
     }
 
-    /* Bigger title just on Programs */
     .page-programs .card h3{
       margin: 0;
       font-size: 24px;
@@ -98,19 +89,16 @@
       font-weight: 1000;
     }
 
-    /* Theme colours */
-    .page-programs .theme-catchup  h3{ color: var(--brand2); }
-    .page-programs .theme-keepup   h3{ color: var(--success); }
+    .page-programs .theme-catchup h3{ color: var(--brand2); }
+    .page-programs .theme-keepup h3{ color: var(--success); }
     .page-programs .theme-getahead h3{ color: var(--accent); }
-    .page-programs .theme-comp     h3{ color: #7c3aed; } /* violet */
+    .page-programs .theme-comp h3{ color: #7c3aed; }
 
-    /* Icon bubble tint to match theme */
-    .page-programs .theme-catchup  .prog-ico{ background: rgba(11,94,215,.10); }
-    .page-programs .theme-keepup   .prog-ico{ background: rgba(22,163,74,.12); }
+    .page-programs .theme-catchup .prog-ico{ background: rgba(11,94,215,.10); }
+    .page-programs .theme-keepup .prog-ico{ background: rgba(22,163,74,.12); }
     .page-programs .theme-getahead .prog-ico{ background: rgba(245,158,11,.14); }
-    .page-programs .theme-comp     .prog-ico{ background: rgba(124,58,237,.12); }
+    .page-programs .theme-comp .prog-ico{ background: rgba(124,58,237,.12); }
 
-    /* Make chips look like “chips” on this page (not dark buttons) */
     .page-programs .prog-chip{
       background: rgba(255,255,255,.75);
       border-color: rgba(15,23,42,.12);
@@ -122,7 +110,6 @@
       border-color: rgba(11,94,215,.22);
     }
 
-    /* Added from old programs page for Maths Club link */
     .program-link{
       margin-top: 12px;
       font-weight: 1000;
@@ -138,12 +125,47 @@
     .link-strong:hover{
       border-bottom-color: rgba(11,94,215,.60);
     }
+
+    .prog-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prog-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-links{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:10px;
+      font-weight:700;
+    }
+    .footer-links a{
+      text-decoration:none;
+      color:inherit;
+      opacity:.9;
+    }
+    .footer-links a:hover{
+      opacity:1;
+      text-decoration:underline;
+    }
   </style>
 </head>
 
 <body class="page-programs">
 
-  <!-- ===== TOP BAR ===== -->
   <div class="topbar">
     <div class="container topbar-inner">
       <!--<a class="brand" href="index.html" aria-label="Magic Math Master home">
@@ -153,47 +175,93 @@
         </div>
       </a>-->
 
-      <nav class="nav" aria-label="Primary navigation">
+      <div class="nav" aria-label="Primary navigation">
         <a data-nav href="index.html">Home</a>
+        <a data-nav href="mathclub.html">Math Club</a>
         <a data-nav href="programs.html">Programs</a>
         <a data-nav href="pricing.html">Fees</a>
-        <a data-nav href="policies.html">Policies</a>
         <a data-nav href="about.html">About</a>
-        <a data-nav href="philosophy.html">Philosophy</a>
-        <a data-nav href="contact.html">Contact</a>
-         <!-- ✅ NEW: public demo practice link -->
-      <!--  <a data-nav href="https://demo.magicmathmaster.com.au">Free Practice</a>-->
+
         <a href="https://practice.magicmathmaster.com.au">Student Login</a>
-        <!--<a class="nav-lang" href="vi/programs.html">Tiếng Việt</a>-->
-        <a class="nav-lang" href="/vi/programs.html">
-          <svg class="nav-lang-flag" viewBox="0 0 24 24" aria-hidden="true">
-            <defs>
-              <clipPath id="nav-clip-vn">
-                <circle cx="12" cy="12" r="12"></circle>
-              </clipPath>
-            </defs>
-            <g clip-path="url(#nav-clip-vn)">
-              <rect width="24" height="24" fill="#da251d"></rect>
-              <polygon fill="#ffde00"
-                points="12,5 13.6,9.2 18,9.4 14.6,12.1 15.9,16.4 12,13.9 8.1,16.4 9.4,12.1 6,9.4 10.4,9.2">
-              </polygon>
-            </g>
-          </svg>
-          <span>VN</span>
-        </a>        
-      </nav>
+
+        <div class="lang-menu">
+          <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-btn-text" id="currentLangText">En</span>
+            <span class="lang-btn-caret">▾</span>
+          </button>
+
+          <div class="lang-dropdown" id="langDropdown" hidden>
+            <button class="lang-option" type="button" data-lang="en" data-label="En">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#012169"/>
+                <polygon points="0,0 7,0 60,33 60,40 53,40 0,7" fill="#fff"/>
+                <polygon points="60,0 53,0 0,33 0,40 7,40 60,7" fill="#fff"/>
+                <polygon points="0,0 3.5,0 60,35 60,40 56.5,40 0,5" fill="#C8102E"/>
+                <polygon points="60,0 56.5,0 0,35 0,40 3.5,40 60,5" fill="#C8102E"/>
+                <rect x="24" width="12" height="40" fill="#fff"/>
+                <rect y="14" width="60" height="12" fill="#fff"/>
+                <rect x="26" width="8" height="40" fill="#C8102E"/>
+                <rect y="16" width="60" height="8" fill="#C8102E"/>
+              </svg>
+              <span class="lang-label">En</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="vi" data-label="Vn">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#DA251D"/>
+                <polygon fill="#FFDE00" points="30,8 33.5,18.5 44.5,18.5 35.5,24.8 39,35 30,28.7 21,35 24.5,24.8 15.5,18.5 26.5,18.5"/>
+              </svg>
+              <span class="lang-label">Vn</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="zh" data-label="Zh">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#DE2910"/>
+                <polygon fill="#FFDE00" points="12,6 13.8,11.3 19.4,11.3 14.9,14.6 16.6,20 12,16.7 7.4,20 9.1,14.6 4.6,11.3 10.2,11.3"/>
+                <polygon fill="#FFDE00" points="24,4 24.7,6.1 27,6.1 25.1,7.4 25.8,9.6 24,8.2 22.2,9.6 22.9,7.4 21,6.1 23.3,6.1"/>
+                <polygon fill="#FFDE00" points="29,9 29.7,11.1 32,11.1 30.1,12.4 30.8,14.6 29,13.2 27.2,14.6 27.9,12.4 26,11.1 28.3,11.1"/>
+                <polygon fill="#FFDE00" points="29,17 29.7,19.1 32,19.1 30.1,20.4 30.8,22.6 29,21.2 27.2,22.6 27.9,20.4 26,19.1 28.3,19.1"/>
+                <polygon fill="#FFDE00" points="24,22 24.7,24.1 27,24.1 25.1,25.4 25.8,27.6 24,26.2 22.2,27.6 22.9,25.4 21,24.1 23.3,24.1"/>
+              </svg>
+              <span class="lang-label">Zh</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="hi" data-label="Hi">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="13.333" y="0" fill="#FF9933"/>
+                <rect width="60" height="13.333" y="13.333" fill="#FFFFFF"/>
+                <rect width="60" height="13.334" y="26.666" fill="#138808"/>
+                <circle cx="30" cy="20" r="4.2" fill="none" stroke="#000080" stroke-width="1"/>
+                <circle cx="30" cy="20" r="0.6" fill="#000080"/>
+              </svg>
+              <span class="lang-label">Hi</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="es" data-label="Es">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#AA151B"/>
+                <rect y="10" width="60" height="20" fill="#F1BF00"/>
+              </svg>
+              <span class="lang-label">Es</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container">
       <div class="hero-snap">
-
-        <div class="hero-snap-grid">
-          <div>
+        <div class="hero-snap-grid hero-snap-grid-split">
+          <div class="hero-snap-copy">
             <h1 class="hero-snap-title">Programs</h1>
             <div class="hero-snap-tagline">Clear pathways for Prep–Year 12 — from catching up to getting ahead</div>
+
+            <p class="hero-snap-desc hero-snap-desc-left">
+              Choose the support level that fits your child: 1-to-1 tutoring, small-group tutorials,
+              Maths Club, or competition training.
+            </p>
           </div>
 
           <div class="hero-snap-logoBox" aria-hidden="true">
@@ -201,245 +269,243 @@
           </div>
         </div>
 
-        <p class="hero-snap-desc">
-          Choose the support level that fits your child: 1-to-1 tutoring, small groups, Maths Club, or competition training.
-        </p>
+        <div class="hero-snap-full">
+          <div class="hero-snap-checks">
+            <span>✓ Calm, structured teaching</span>
+            <span>✓ Personalised learning</span>
+            <span>✓ Clear family communication</span>
+          </div>
 
-        <div class="hero-snap-checks">
-          <span>✓ Calm, structured teaching</span>
-          <span>✓ Personalised learning</span>
-          <span>✓ Clear family communication</span>
+          <div class="hero-snap-pills">
+            <span class="hero-snap-pill">Online &amp; in-person</span>
+            <span class="hero-snap-pill">Prep–Year 12</span>
+            <span class="hero-snap-pill">Confidence first</span>
+          </div>
+
+          <div class="hero-snap-cta">
+            <a class="btn btn-success" href="enquiry.html">Enquire</a>
+            <a class="btn btn-amber" href="register.html">Register</a>
+          </div>
         </div>
-
-        <div class="hero-snap-pills">
-          <span class="hero-snap-pill">Online &amp; in-person</span>
-          <span class="hero-snap-pill">Prep–Year 12</span>
-          <span class="hero-snap-pill">Confidence first</span>
-        </div>
-
-        <div class="hero-snap-cta">
-          <a class="btn btn-success" href="enquiry.html">Enquire</a>
-          <a class="btn btn-amber" href="register.html">Register</a>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ===== PAGE CONTENT ===== -->
-  <main class="container">
+  <main>
     <section class="section" id="programs">
-      <p class="section-sub">
-        Start with your child’s goal, then jump straight to the best-fit program.
-      </p>
+      <div class="container">
+        <p class="section-sub">
+          Start with your child’s goal, then jump straight to the best-fit program.
+        </p>
 
-      <!-- Chooser (links to program cards) -->
-      <div class="grid">
-        <a class="card theme-catchup" href="#p-1to1">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">🧱</span>
-            <h3>Catch up &amp; rebuild foundations</h3>
-          </div>
-          <p>
-            Best for students who feel behind or anxious. We rebuild core skills step-by-step, then practise until it feels easy.
-          </p>
-          <div class="prog-meta">
-            <span class="prog-chip">Go to 1-to-1</span>
-            <span class="prog-chip">Strong basics</span>
-            <span class="prog-chip">Confidence</span>
-          </div>
-        </a>
+        <div class="grid">
+          <a class="card theme-catchup" href="#p-1to1">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">🧱</span>
+              <h3>Catch up &amp; rebuild foundations</h3>
+            </div>
+            <p>
+              Best for students who feel behind or anxious. We rebuild core skills step-by-step, then practise until it feels easy.
+            </p>
+            <div class="prog-meta">
+              <span class="prog-chip">Go to 1-to-1</span>
+              <span class="prog-chip">Strong basics</span>
+              <span class="prog-chip">Confidence</span>
+            </div>
+          </a>
 
-        <a class="card theme-keepup" href="#p-group">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">📚</span>
-            <h3>Keep up &amp; stay consistent</h3>
-          </div>
-          <p>
-            Best for students who are doing “okay” but need structure. We align with school topics and prevent gaps from growing.
-          </p>
-          <div class="prog-meta">
-            <span class="prog-chip">Go to Small-Group</span>
-            <span class="prog-chip">School-aligned</span>
-            <span class="prog-chip">Good habits</span>
-          </div>
-        </a>
+          <a class="card theme-keepup" href="#p-group">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">📚</span>
+              <h3>Keep up &amp; stay consistent</h3>
+            </div>
+            <p>
+              Best for students who are doing “okay” but need structure. We align with school topics and prevent gaps from growing.
+            </p>
+            <div class="prog-meta">
+              <span class="prog-chip">Go to Small-Group</span>
+              <span class="prog-chip">School-aligned</span>
+              <span class="prog-chip">Good habits</span>
+            </div>
+          </a>
 
-        <a class="card theme-getahead" href="#p-club">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">🚀</span>
-            <h3>Get ahead &amp; extend (with joy)</h3>
-          </div>
-          <p>
-            Best for capable students who want challenge without pressure. We build reasoning and flexible thinking through rich problems.
-          </p>
-          <div class="prog-meta">
-            <span class="prog-chip">Go to Maths Club</span>
-            <span class="prog-chip">Extension</span>
-            <span class="prog-chip">Problem-solving</span>
-          </div>
-        </a>
+          <a class="card theme-getahead" href="#p-club">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">🚀</span>
+              <h3>Get ahead &amp; extend with joy</h3>
+            </div>
+            <p>
+              Best for capable students who want challenge without pressure. We build reasoning and flexible thinking through rich problems.
+            </p>
+            <div class="prog-meta">
+              <span class="prog-chip">Go to Maths Club</span>
+              <span class="prog-chip">Extension</span>
+              <span class="prog-chip">Problem-solving</span>
+            </div>
+          </a>
 
-        <a class="card theme-comp" href="#p-comp">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">🏆</span>
-            <h3>Aim for competitions</h3>
-          </div>
-          <p>
-            Best for students targeting AMC/AMO-style questions. We teach strategies, build stamina, and refine solutions.
-          </p>
-          <div class="prog-meta">
-            <span class="prog-chip">Go to Competition</span>
-            <span class="prog-chip">AMC/AMO focus</span>
-            <span class="prog-chip">Strategies</span>
-          </div>
-        </a>
-      </div>
-
-      <!-- Actual program cards -->
-      <div class="grid" style="margin-top:18px;">
-        <!-- 1-to-1 -->
-        <div class="card anchor-target theme-catchup" id="p-1to1">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">🧑‍🏫</span>
-            <h3>1-to-1 Tutoring</h3>
-          </div>
-          <p>
-            Fully personalised lessons for rapid progress. Ideal for targeted support, confidence building, or high goals.
-          </p>
-          <ul>
-            <li>Personal learning plan + goals</li>
-            <li>Targeted explanations and practice</li>
-            <li>Flexible pacing (catch up or accelerate)</li>
-          </ul>
-
-          <div class="prog-meta">
-            <span class="prog-chip">Prep–Year 12</span>
-            <span class="prog-chip">1:1</span>
-            <span class="prog-chip">Online &amp; in-person</span>
-          </div>
-
-          <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> a personalised plan + regular progress updates and next steps.</div>
-
-          <div class="prog-actions">
-            <a class="btn btn-success" href="enquiry.html">Enquire</a>
-            <a class="btn btn-amber" href="register.html">Register</a>
-          </div>
+          <a class="card theme-comp" href="#p-comp">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">🏆</span>
+              <h3>Aim for competitions</h3>
+            </div>
+            <p>
+              Best for students targeting AMC/AMO-style questions. We teach strategies, build stamina, and refine solutions.
+            </p>
+            <div class="prog-meta">
+              <span class="prog-chip">Go to Competition</span>
+              <span class="prog-chip">AMC/AMO focus</span>
+              <span class="prog-chip">Strategies</span>
+            </div>
+          </a>
         </div>
 
-        <!-- Small group -->
-        <div class="card anchor-target theme-keepup" id="p-group">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">👨‍👩‍👧</span>
-            <h3>Small-Group Tutorials</h3>
-          </div>
-          <p>
-            Small groups for structure + motivation. Great for consistent weekly learning and school-aligned practice.
-          </p>
-          <ul>
-            <li>Small group attention (limited seats)</li>
-            <li>Clear weekly focus + homework support</li>
-            <li>Confidence-first environment</li>
-          </ul>
+        <div class="grid" style="margin-top:18px;">
+          <div class="card anchor-target theme-catchup" id="p-1to1">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">🧑‍🏫</span>
+              <h3>1-to-1 Tutoring</h3>
+            </div>
+            <p>
+              Fully personalised lessons for rapid progress. Ideal for targeted support, confidence building, or high goals.
+            </p>
+            <ul>
+              <li>Personal learning plan + goals</li>
+              <li>Targeted explanations and practice</li>
+              <li>Flexible pacing (catch up or accelerate)</li>
+            </ul>
 
-          <div class="prog-meta">
-            <span class="prog-chip">Small groups</span>
-            <span class="prog-chip">Weekly structure</span>
-            <span class="prog-chip">School-aligned</span>
-          </div>
+            <div class="prog-meta">
+              <span class="prog-chip">Prep–Year 12</span>
+              <span class="prog-chip">1:1</span>
+              <span class="prog-chip">Online &amp; in-person</span>
+            </div>
 
-          <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> weekly focus topics + progress updates and clear next steps.</div>
+            <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> a personalised plan + regular progress updates and next steps.</div>
 
-          <div class="prog-actions">
-            <a class="btn btn-success" href="enquiry.html">Enquire</a>
-            <a class="btn btn-amber" href="register.html">Register</a>
-          </div>
-        </div>
-
-        <!-- Maths Club -->
-        <div class="card anchor-target theme-getahead" id="p-club">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">🧩</span>
-            <h3>Maths Club</h3>
-          </div>
-          <p>
-            Weekly enrichment for curious learners. Build reasoning, pattern-spotting, and flexible thinking through fun problems.
-          </p>
-          <ul>
-            <li>Challenge problems + games</li>
-            <li>Reasoning and communication</li>
-            <li>Healthy confidence through exploration</li>
-          </ul>
-
-          <div class="prog-meta">
-            <span class="prog-chip">Weekly puzzles</span>
-            <span class="prog-chip">Online</span>
-            <span class="prog-chip">Progress charts</span>
+            <div class="prog-actions">
+              <a class="btn btn-success" href="enquiry.html">Enquire</a>
+              <a class="btn btn-amber" href="register.html">Register</a>
+            </div>
           </div>
 
-          <p class="program-link">
-            👉 <a class="link-strong" href="mathclub.html">View full Maths Club details →</a>
-          </p>
+          <div class="card anchor-target theme-keepup" id="p-group">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">👨‍👩‍👧</span>
+              <h3>Small-Group Tutorials</h3>
+            </div>
+            <p>
+              Small groups for structure + motivation. Great for consistent weekly learning and school-aligned practice.
+            </p>
+            <ul>
+              <li>Small group attention (limited seats)</li>
+              <li>Clear weekly focus + homework support</li>
+              <li>Confidence-first environment</li>
+            </ul>
 
-          <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> simple progress tracking + tips to support learning at home.</div>
+            <div class="prog-meta">
+              <span class="prog-chip">Small groups</span>
+              <span class="prog-chip">Weekly structure</span>
+              <span class="prog-chip">School-aligned</span>
+            </div>
 
-          <div class="prog-actions">
-            <a class="btn btn-success" href="enquiry.html">Enquire</a>
-            <a class="btn btn-amber" href="register.html">Register</a>
-          </div>
-        </div>
+            <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> weekly focus topics + progress updates and clear next steps.</div>
 
-        <!-- Competition -->
-        <div class="card anchor-target theme-comp" id="p-comp">
-          <div class="prog-title">
-            <span class="prog-ico" aria-hidden="true">⏱️</span>
-            <h3>Competition Training</h3>
-          </div>
-          <p>
-            Prepare for AMC/AMO-style problem solving. Learn strategies, build stamina, and practise high-quality questions.
-          </p>
-          <ul>
-            <li>Problem-solving strategies + habits</li>
-            <li>Timed practice and review</li>
-            <li>Solutions explained clearly</li>
-            <li>Learn smart shortcuts &amp; avoid common traps</li>
-            <li>Build a personal strategy toolkit for different question types</li>
-          </ul>
-
-          <div class="prog-meta">
-            <span class="prog-chip">Extension</span>
-            <span class="prog-chip">AMC/AMO focus</span>
-            <span class="prog-chip">Strategies</span>
+            <div class="prog-actions">
+              <a class="btn btn-success" href="enquiry.html">Enquire</a>
+              <a class="btn btn-amber" href="register.html">Register</a>
+            </div>
           </div>
 
-          <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> strategy feedback + a recommended practice pathway.</div>
+          <div class="card anchor-target theme-getahead" id="p-club">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">🧩</span>
+              <h3>Maths Club</h3>
+            </div>
+            <p>
+              Weekly enrichment for curious learners. Build reasoning, pattern-spotting, and flexible thinking through fun problems.
+            </p>
+            <ul>
+              <li>Challenge problems + games</li>
+              <li>Reasoning and communication</li>
+              <li>Healthy confidence through exploration</li>
+            </ul>
 
-          <div class="prog-actions">
-            <a class="btn btn-success" href="enquiry.html">Enquire</a>
-            <a class="btn btn-amber" href="register.html">Register</a>
+            <div class="prog-meta">
+              <span class="prog-chip">Weekly puzzles</span>
+              <span class="prog-chip">Online</span>
+              <span class="prog-chip">Progress charts</span>
+            </div>
+
+            <p class="program-link">
+              👉 <a class="link-strong" href="mathclub.html">View full Maths Club details →</a>
+            </p>
+
+            <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> simple progress tracking + tips to support learning at home.</div>
+
+            <div class="prog-actions">
+              <a class="btn btn-success" href="enquiry.html?program=maths-club">Ask About Maths Club</a>
+              <a class="btn btn-amber" href="Club-register.html">Register for Maths Club</a>
+            </div>
+          </div>
+
+          <div class="card anchor-target theme-comp" id="p-comp">
+            <div class="prog-title">
+              <span class="prog-ico" aria-hidden="true">⏱️</span>
+              <h3>Competition Training</h3>
+            </div>
+            <p>
+              Prepare for AMC/AMO-style problem solving. Learn strategies, build stamina, and practise high-quality questions.
+            </p>
+            <ul>
+              <li>Problem-solving strategies + habits</li>
+              <li>Timed practice and review</li>
+              <li>Solutions explained clearly</li>
+              <li>Learn smart shortcuts &amp; avoid common traps</li>
+              <li>Build a personal strategy toolkit for different question types</li>
+            </ul>
+
+            <div class="prog-meta">
+              <span class="prog-chip">Extension</span>
+              <span class="prog-chip">AMC/AMO focus</span>
+              <span class="prog-chip">Strategies</span>
+            </div>
+
+            <div class="parents-get">👨‍👩‍👧‍👦 <strong>Parents get:</strong> strategy feedback + a recommended practice pathway.</div>
+
+            <div class="prog-actions">
+              <a class="btn btn-success" href="enquiry.html">Enquire</a>
+              <a class="btn btn-amber" href="register.html">Register</a>
+            </div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span id="year"></span> Magic Math Master • Australia</div>
-      <div>
-        <a href="contact.html">Contact</a> •
+    <div class="container">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> Magic Math Master • Australia</div>
+        <div>
+          <a href="mailto:magicmathmaster@outlook.com">magicmathmaster@outlook.com</a>;
+          <a href="mailto:magicmathmasters@gmail.com">magicmathmasters@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="footer-links" aria-label="Footer links">
+        <a href="about.html">About</a>
+        <a href="philosophy.html">Philosophy</a>
         <a href="policies.html">Policies</a>
+        <a href="contact.html">Contact</a>
       </div>
     </div>
   </footer>
 
-  <!-- Auto year -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <!-- Auto highlight current nav item -->
   <script src="script.js"></script>
 </body>
 </html>
