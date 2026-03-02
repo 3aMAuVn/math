@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maths Club Registration – Magic Math Master</title>
+  <meta name="description" content="Register for Maths Club at Magic Math Master. For students joining Maths Club without tutoring." />
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+
+  <style>
+    /* Keep page-specific tweaks minimal; shared components live in style.css */
+    main { padding: 18px 0 40px; }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html" aria-label="Magic Math Master home">
+        <img class="brand-logo" src="assets/logo.png" alt="Magic Math Master logo" />
+        <div class="brand-title"><b>Magic Math Master</b></div>
+      </a>
+
+      <div class="top-actions">
+        <a class="btn btn-outline" href="index.html">Home</a>
+        <a class="btn btn-outline" href="enquiry.html">Enquiry</a>
+        <a class="btn btn-success" href="register.html">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+
+      <!-- HERO aligned with register.html -->
+      <section class="hero-card" aria-label="Maths Club registration hero">
+        <img class="hero-banner" src="assets/banner.png" alt="Magic Math Master banner" loading="eager" />
+        <div class="hero-copy">
+          <h1 class="hero-title">Maths Club Registration</h1>
+          <p class="hero-desc">
+            For students enrolling in <strong>Maths Club without tutoring</strong>.
+            <br />
+            <strong>Tutoring students:</strong> Maths Club membership is complimentary — you do not need to register here.
+          </p>
+
+          <div class="hero-pills">
+            <span class="hero-pill">Term-based program</span>
+            <span class="hero-pill">Structured group learning</span>
+            <span class="hero-pill">Confidence-first teaching</span>
+          </div>
+
+          <!-- Buttons aligned across pages -->
+          <div class="hero-actions">
+            <a class="btn btn-amber" href="register.html">Register for Tutoring</a>
+            <a class="btn btn-outline" href="enquiry.html">Tutoring Enquiry</a>
+
+            <a class="btn btn-secondary" href="club-register.html" aria-current="page">
+              Maths Club
+              <span class="badge">Club only</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Optional info card for clarity -->
+      <section class="page-card">
+        <h2 class="page-title">👥 Maths Club – Registration</h2>
+        <p class="lead">
+          Please complete this form if you would like to enrol in Maths Club as a standalone program.
+          If your child is enrolling in tutoring, Maths Club is included automatically.
+        </p>
+        <p class="lead">
+          Questions? Contact us:
+        </p>
+        <div class="contact-list">
+          <a href="tel:+61402204599">📞 +61 402 204 599</a>
+          <a href="https://wa.me/61402204599" target="_blank" rel="noopener">🟢 WhatsApp</a>
+          <a href="mailto:magicmathmasters@gmail.com?subject=Maths%20Club%20Registration">✉️ magicmathmasters@gmail.com</a>
+        </div>
+      </section>
+
+      <!-- ==========================
+           YOUR EXISTING CLUB FORM
+           Paste/keep your current club form here.
+           ========================== -->
+
+      <!-- Example placeholder only (remove if you already have a working form) -->
+      <section class="form-card">
+        <h3 class="section-title">Club registration form</h3>
+        <p class="note">
+          Paste your existing club registration form here (the one posting to your Apps Script that writes to "Club Register").
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> Magic Math Master • Australia</div>
+      <div>
+        <a href="contact.html">Contact</a> •
+        <a href="policies.html">Policies</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
