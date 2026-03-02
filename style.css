@@ -177,8 +177,6 @@ a{ color:inherit; }
   align-items:center;
   gap: 8px;
   justify-content:flex-end;
-
-  /* Desktop default: one row */
   flex-wrap: nowrap;
 }
 
@@ -338,6 +336,113 @@ a{ color:inherit; }
   filter: brightness(.96);
 }
 
+/* =========================
+   Register-style HERO (banner card)
+   Used by: register.html, enquiry.html, club-register.html
+   ========================= */
+.hero-card{
+  overflow:hidden;
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.10);
+  margin: 16px 0;
+}
+
+.hero-banner{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.hero-copy{
+  background: rgba(255,255,255,.95);
+  border-top: 1px solid var(--line);
+  padding: 18px;
+}
+
+.hero-title{
+  margin: 0 0 8px;
+  font-size: clamp(30px, 3.2vw, 46px);
+  line-height: 1.12;
+  color: var(--brand2);
+  font-weight: 1000;
+  letter-spacing: -0.2px;
+}
+
+.hero-desc{
+  margin: 0;
+  color: rgba(15,23,42,.72);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.hero-pills{
+  margin-top: 14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.hero-pill{
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(11,94,215,.08);
+  color: var(--brand2);
+  font-weight: 900;
+  border: 1px solid rgba(11,94,215,.18);
+  font-size: .95rem;
+}
+
+/* =========================
+   Shared CTA styles (SITE-WIDE)
+   ========================= */
+.hero-actions{
+  margin-top: 14px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+
+/* Secondary button (blue-tinted) */
+.btn-secondary{
+  background: rgba(11,94,215,.08);
+  color: var(--brand2);
+  border: 1px solid rgba(11,94,215,.25);
+  box-shadow: none;
+}
+.btn-secondary:hover{
+  background: rgba(11,94,215,.14);
+}
+
+/* Badge styled to match “pills” */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 900;
+  background: rgba(11,94,215,.10);
+  color: var(--brand2);
+  border: 1px solid rgba(11,94,215,.22);
+  line-height: 1.1;
+}
+
+/* Optional: strong link */
+.link-strong{
+  color: var(--brand);
+  font-weight: 900;
+  text-decoration: underline;
+}
+.link-strong:hover{
+  text-decoration-thickness: 2px;
+}
+
 /* ============ HERO (screenshot style) ============ */
 .hero{ padding: 18px 0 24px; }
 
@@ -460,6 +565,68 @@ a{ color:inherit; }
   .hero-snap-logoBox{
     justify-self: end;
     margin-left: auto;
+  }
+}
+
+/* =========================================
+   OPTIONAL SPLIT HERO LAYOUT
+   For pages like mathclub.html:
+   - title + tagline + description on left of logo
+   - text stays centered inside left column
+   - checks + pills + buttons stay full width below
+   ========================================= */
+.hero-snap-grid-split{
+  display:grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 22px;
+  align-items: start;
+}
+
+.hero-snap-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.hero-snap-grid-split .hero-snap-title,
+.hero-snap-grid-split .hero-snap-tagline,
+.hero-snap-grid-split .hero-snap-desc-left{
+  text-align:center;
+}
+
+.hero-snap-grid-split .hero-snap-desc-left{
+  margin: 18px 0 0;
+  max-width: 720px;
+}
+
+.hero-snap-full{
+  margin-top: 20px;
+}
+
+.hero-snap-full .hero-snap-checks,
+.hero-snap-full .hero-snap-pills,
+.hero-snap-full .hero-snap-cta{
+  justify-content:center;
+}
+
+@media (max-width: 980px){
+  .hero-snap-grid-split{
+    grid-template-columns: 1fr;
+  }
+
+  .hero-snap-copy{
+    align-items:center;
+  }
+
+  .hero-snap-grid-split .hero-snap-title,
+  .hero-snap-grid-split .hero-snap-tagline,
+  .hero-snap-grid-split .hero-snap-desc-left{
+    text-align:center;
+  }
+
+  .hero-snap-logoBox{
+    justify-self:center;
+    margin: 0 auto;
   }
 }
 
@@ -981,6 +1148,7 @@ textarea{
     gap: 10px;
   }
 }
+
 .lang-flag-svg-rect{
   width: 30px;
   height: 20px;
@@ -992,6 +1160,8 @@ textarea{
   box-shadow: 0 1px 2px rgba(0,0,0,.10);
   vertical-align: middle;
 }
+
+/* ===== Optional: club summary (kept as you had) ===== */
 .club-summary-wrap{
   background: rgba(255,255,255,.82);
   border: 1px solid rgba(11,94,215,.14);
@@ -1070,166 +1240,5 @@ textarea{
 
   .club-summary-desc{
     font-size: 16px;
-  }
-}
-/* =========================
-   Shared CTA styles
-   ========================= */
-
-/* Button row in hero sections */
-.hero-actions {
-  margin-top: 14px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
-/* Secondary button (blue-tinted) */
-.btn-secondary {
-  background: rgba(11,94,215,.08);
-  color: var(--accent);
-  border: 1px solid rgba(11,94,215,.25);
-  box-shadow: none;
-}
-
-.btn-secondary:hover {
-  background: rgba(11,94,215,.14);
-}
-
-/* Badge styled like hero pills */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: 8px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: .8rem;
-  font-weight: 900;
-  background: var(--accent-soft);
-  color: var(--accent);
-  border: 1px solid rgba(11,94,215,.2);
-  line-height: 1.1;
-}
-
-/* Optional: make text links look like "important link" */
-.link-strong {
-  color: var(--accent);
-  font-weight: 900;
-  text-decoration: underline;
-}
-.link-strong:hover {
-  text-decoration-thickness: 2px;
-}
-.hero-snap-grid{
-  display:grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 22px;
-  align-items: start;
-}
-
-.hero-snap-copy{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-}
-
-.hero-snap-title,
-.hero-snap-tagline,
-.hero-snap-desc{
-  text-align:left;
-}
-
-.hero-snap-desc{
-  margin: 18px 0 0;
-  max-width: none;
-}
-
-.hero-snap-checks,
-.hero-snap-pills,
-.hero-snap-cta{
-  justify-content:flex-start;
-}
-
-@media (max-width: 980px){
-  .hero-snap-grid{
-    grid-template-columns: 1fr;
-  }
-
-  .hero-snap-copy{
-    align-items:center;
-  }
-
-  .hero-snap-title,
-  .hero-snap-tagline,
-  .hero-snap-desc{
-    text-align:center;
-  }
-
-  .hero-snap-checks,
-  .hero-snap-pills,
-  .hero-snap-cta{
-    justify-content:center;
-  }
-
-  .hero-snap-logoBox{
-    justify-self:center;
-    margin: 0 auto;
-  }
-}
-
-.hero-snap-grid-split{
-  display:grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
-  gap: 22px;
-  align-items: start;
-}
-
-.hero-snap-copy{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-}
-
-.hero-snap-grid-split .hero-snap-title,
-.hero-snap-grid-split .hero-snap-tagline,
-.hero-snap-grid-split .hero-snap-desc-left{
-  text-align:left;
-}
-
-.hero-snap-grid-split .hero-snap-desc-left{
-  margin: 18px 0 0;
-  max-width: none;
-}
-
-.hero-snap-full{
-  margin-top: 20px;
-}
-
-.hero-snap-full .hero-snap-checks,
-.hero-snap-full .hero-snap-pills,
-.hero-snap-full .hero-snap-cta{
-  justify-content:center;
-}
-
-@media (max-width: 980px){
-  .hero-snap-grid-split{
-    grid-template-columns: 1fr;
-  }
-
-  .hero-snap-copy{
-    align-items:center;
-  }
-
-  .hero-snap-grid-split .hero-snap-title,
-  .hero-snap-grid-split .hero-snap-tagline,
-  .hero-snap-grid-split .hero-snap-desc-left{
-    text-align:center;
-  }
-
-  .hero-snap-logoBox{
-    justify-self:center;
-    margin: 0 auto;
   }
 }
