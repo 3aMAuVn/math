@@ -19,6 +19,7 @@
   <style>
     html { scroll-behavior: smooth; }
     #detailed-fees, #maths-club-fee, #discounts-rewards { scroll-margin-top: 110px; }
+    .brand-title span{ display:none !important; }
 
     .section-title{
       font-size: clamp(26px, 2.2vw, 34px);
@@ -522,7 +523,6 @@
       line-height: 1.6;
     }
 
-    /* UPDATED: 3-card Maths Club layout */
     .club-grid{
       display:grid;
       gap: 14px;
@@ -539,17 +539,6 @@
       padding: 16px 18px;
     }
     .price-lines{ margin: 0; line-height: 1.8; font-size: 16px; font-weight: 800; }
-    /*.best-value{
-      display:inline-block;
-      margin-left: 8px;
-      background: rgba(229,57,53,.95);
-      color: #fff;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-weight: 1000;
-      font-size: 12px;
-      vertical-align: middle;
-    }*/
 
     .discounts-row{
       display:flex;
@@ -617,41 +606,119 @@
       line-height:1.7;
       opacity: .92;
     }
+
+    .footer-links{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:10px;
+      font-weight:700;
+    }
+    .footer-links a{
+      text-decoration:none;
+      color:inherit;
+      opacity:.9;
+    }
+    .footer-links a:hover{
+      opacity:1;
+      text-decoration:underline;
+    }
   </style>
 </head>
 
 <body class="pricing-page">
 
+  <!-- Topbar matches index/programs -->
   <div class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="index.html" aria-label="Magic Math Master home">
-        <img class="brand-logo" src="assets/logo.png" alt="Magic Math Master logo" />
-        <div class="brand-title">
-          <b>Magic Math Master</b>
-        </div>
-      </a>
-
-      <nav class="nav" aria-label="Primary navigation">
+      <div class="nav" aria-label="Primary navigation">
         <a data-nav href="index.html">Home</a>
+        <a data-nav href="mathclub.html">Math Club</a>
         <a data-nav href="programs.html">Programs</a>
         <a data-nav href="pricing.html">Fees</a>
-        <a data-nav href="policies.html">Policies</a>
         <a data-nav href="about.html">About</a>
-        <a data-nav href="philosophy.html">Philosophy</a>
-        <a data-nav href="contact.html">Contact</a>
-        <a class="nav-lang" href="vi/pricing.html">Tiếng Việt</a>
-      </nav>
+
+        <a href="https://practice.magicmathmaster.com.au">Student Login</a>
+
+        <div class="lang-menu">
+          <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
+            <span class="lang-btn-text" id="currentLangText">En</span>
+            <span class="lang-btn-caret">▾</span>
+          </button>
+
+          <div class="lang-dropdown" id="langDropdown" hidden>
+            <button class="lang-option" type="button" data-lang="en" data-label="En">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#012169"/>
+                <polygon points="0,0 7,0 60,33 60,40 53,40 0,7" fill="#fff"/>
+                <polygon points="60,0 53,0 0,33 0,40 7,40 60,7" fill="#fff"/>
+                <polygon points="0,0 3.5,0 60,35 60,40 56.5,40 0,5" fill="#C8102E"/>
+                <polygon points="60,0 56.5,0 0,35 0,40 3.5,40 60,5" fill="#C8102E"/>
+                <rect x="24" width="12" height="40" fill="#fff"/>
+                <rect y="14" width="60" height="12" fill="#fff"/>
+                <rect x="26" width="8" height="40" fill="#C8102E"/>
+                <rect y="16" width="60" height="8" fill="#C8102E"/>
+              </svg>
+              <span class="lang-label">En</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="vi" data-label="Vn">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#DA251D"/>
+                <polygon fill="#FFDE00" points="30,8 33.5,18.5 44.5,18.5 35.5,24.8 39,35 30,28.7 21,35 24.5,24.8 15.5,18.5 26.5,18.5"/>
+              </svg>
+              <span class="lang-label">Vn</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="zh" data-label="Zh">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#DE2910"/>
+                <polygon fill="#FFDE00" points="12,6 13.8,11.3 19.4,11.3 14.9,14.6 16.6,20 12,16.7 7.4,20 9.1,14.6 4.6,11.3 10.2,11.3"/>
+                <polygon fill="#FFDE00" points="24,4 24.7,6.1 27,6.1 25.1,7.4 25.8,9.6 24,8.2 22.2,9.6 22.9,7.4 21,6.1 23.3,6.1"/>
+                <polygon fill="#FFDE00" points="29,9 29.7,11.1 32,11.1 30.1,12.4 30.8,14.6 29,13.2 27.2,14.6 27.9,12.4 26,11.1 28.3,11.1"/>
+                <polygon fill="#FFDE00" points="29,17 29.7,19.1 32,19.1 30.1,20.4 30.8,22.6 29,21.2 27.2,22.6 27.9,20.4 26,19.1 28.3,19.1"/>
+                <polygon fill="#FFDE00" points="24,22 24.7,24.1 27,24.1 25.1,25.4 25.8,27.6 24,26.2 22.2,27.6 22.9,25.4 21,24.1 23.3,24.1"/>
+              </svg>
+              <span class="lang-label">Zh</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="hi" data-label="Hi">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="13.333" y="0" fill="#FF9933"/>
+                <rect width="60" height="13.333" y="13.333" fill="#FFFFFF"/>
+                <rect width="60" height="13.334" y="26.666" fill="#138808"/>
+                <circle cx="30" cy="20" r="4.2" fill="none" stroke="#000080" stroke-width="1"/>
+                <circle cx="30" cy="20" r="0.6" fill="#000080"/>
+              </svg>
+              <span class="lang-label">Hi</span>
+            </button>
+
+            <button class="lang-option" type="button" data-lang="es" data-label="Es">
+              <svg class="lang-flag-svg-rect" viewBox="0 0 60 40" aria-hidden="true">
+                <rect width="60" height="40" fill="#AA151B"/>
+                <rect y="10" width="60" height="20" fill="#F1BF00"/>
+              </svg>
+              <span class="lang-label">Es</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Hero matches the new "split" style used on index/programs -->
   <section class="hero">
     <div class="container">
       <div class="hero-snap">
-
-        <div class="hero-snap-grid">
-          <div>
+        <div class="hero-snap-grid hero-snap-grid-split">
+          <div class="hero-snap-copy">
             <h1 class="hero-snap-title">Fees</h1>
             <div class="hero-snap-tagline">Transparent pricing, structured lessons, and clear expectations</div>
+
+            <p class="hero-snap-desc hero-snap-desc-left">
+              Choose year level and program type to see live pricing. If you’re unsure, we can recommend the best option based on goals and timeline.
+            </p>
           </div>
 
           <div class="hero-snap-logoBox" aria-hidden="true">
@@ -659,27 +726,24 @@
           </div>
         </div>
 
-        <p class="hero-snap-desc">
-          Choose year level and program type to see live pricing. If you’re unsure, we can recommend the best option based on goals and timeline.
-        </p>
+        <div class="hero-snap-full">
+          <div class="hero-snap-checks">
+            <span>✓ Calm, structured teaching</span>
+            <span>✓ Personalised learning</span>
+            <span>✓ Clear family communication</span>
+          </div>
 
-        <div class="hero-snap-checks">
-          <span>✓ Calm, structured teaching</span>
-          <span>✓ Personalised learning</span>
-          <span>✓ Clear family communication</span>
+          <div class="hero-snap-pills">
+            <span class="hero-snap-pill">Online &amp; in-person</span>
+            <span class="hero-snap-pill">Primary–VCE</span>
+            <span class="hero-snap-pill">Confidence first</span>
+          </div>
+
+          <div class="hero-snap-cta">
+            <a class="btn btn-success" href="enquiry.html">Enquire</a>
+            <a class="btn btn-amber" href="register.html">Register</a>
+          </div>
         </div>
-
-        <div class="hero-snap-pills">
-          <span class="hero-snap-pill">Online &amp; in-person</span>
-          <span class="hero-snap-pill">Primary–VCE</span>
-          <span class="hero-snap-pill">Confidence first</span>
-        </div>
-
-        <div class="hero-snap-cta">
-          <a class="btn btn-success" href="enquiry.html">Enquire</a>
-          <a class="btn btn-amber" href="register.html">Register</a>
-        </div>
-
       </div>
     </div>
   </section>
@@ -917,7 +981,6 @@
       </p>
     </section>
 
-    <!-- UPDATED Maths Club -->
     <section class="club-section section" id="maths-club-fee">
       <h2 class="section-title" style="text-align:center; margin-top:0;">🌈 Maths Club fee</h2>
       <p class="club-sub">
@@ -961,6 +1024,12 @@
             Best for structured revision, exam-style practice, and review materials up to Year 12 level.
           </p>
         </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:16px;">
+        <a class="btn btn-success" href="enquiry.html?program=maths-club">Ask about Maths Club</a>
+        <a class="btn btn-amber" href="Club-register.html">Register for Maths Club</a>
+        <a class="btn btn-amber" href="mathclub.html">Maths Club details</a>
       </div>
     </section>
 
@@ -1064,11 +1133,20 @@
   </main>
 
   <footer class="footer">
-    <div class="container footer-inner">
-      <div>© <span id="year"></span> Magic Math Master • Australia</div>
-      <div>
-        <a href="contact.html">Contact</a> •
+    <div class="container">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> Magic Math Master • Australia</div>
+        <div>
+          <a href="mailto:magicmathmaster@outlook.com">magicmathmaster@outlook.com</a>;
+          <a href="mailto:magicmathmasters@gmail.com">magicmathmasters@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="footer-links" aria-label="Footer links">
+        <a href="about.html">About</a>
+        <a href="philosophy.html">Philosophy</a>
         <a href="policies.html">Policies</a>
+        <a href="contact.html">Contact</a>
       </div>
     </div>
   </footer>
