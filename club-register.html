@@ -342,6 +342,42 @@
       background: rgba(34,197,94,.08);
     }
     .success-card strong{ font-weight: 1000; }
+
+    /* ===== Nice Thank-you Modal (Club Register) ===== */
+    #clubThankYouModal{
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.45);
+      z-index: 9999;
+      padding: 18px;
+    }
+
+    #clubThankYouModal .modal-card{
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      width: min(440px, 100%);
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0,0,0,.22);
+      border: 1px solid rgba(0,0,0,.08);
+    }
+
+    #clubThankYouModal .modal-title{
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: 1000;
+      color: var(--brand2); /* coloured title */
+    }
+
+    #clubThankYouModal .modal-text{
+      margin: 0 0 14px;
+      color: rgba(15,23,42,.72);
+      font-weight: 650;
+      line-height: 1.6;
+    }
   </style>
 </head>
 
@@ -675,6 +711,17 @@
     <div class="container">© <span id="year"></span> Magic Math Master • Australia</div>
   </footer>
 
+  <!-- ===== Thank you modal (Club Register) ===== -->
+  <div id="clubThankYouModal" role="dialog" aria-modal="true" aria-label="Thank you">
+    <div class="modal-card">
+      <h3 class="modal-title">Thank you!</h3>
+      <p class="modal-text">
+        Your Maths Club registration has been received. We will contact you soon with payment arrangements and next steps.
+      </p>
+      <button class="btn btn-amber" id="clubThankYouOkBtn" type="button">OK</button>
+    </div>
+  </div>
+
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -699,6 +746,14 @@
     const clubStreamField = document.getElementById('clubStreamField');
     const prepSubgroupField = document.getElementById('prepSubgroupField');
     const studentsField = document.getElementById('studentsField');
+
+    // ✅ modal elements
+    const clubModal = document.getElementById('clubThankYouModal');
+    const clubOkBtn = document.getElementById('clubThankYouOkBtn');
+
+    clubOkBtn.addEventListener('click', () => {
+      clubModal.style.display = 'none';
+    });
 
     let submissionPending = false;
 
@@ -797,9 +852,12 @@
         if (!submissionPending) return;
         submissionPending = false;
 
+        // show success card (optional)
         successMessage.style.display = 'block';
         successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        alert('Thank you. Your registration has been received. We will contact you soon with payment arrangements and next steps.');
+
+        // ✅ show nice modal (replaces browser alert)
+        clubModal.style.display = 'flex';
 
         form.reset();
         resetTable();
