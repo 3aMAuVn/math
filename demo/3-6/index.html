@@ -157,6 +157,32 @@
     .toggleRow input{width:auto; transform:scale(1.2);}
     .toggleRow label{margin:0;font-weight:800;}
 
+    /* ===== Fraction input row (2nd input type) ===== */
+    .fracRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .fracRow input{
+      width:100%;
+      text-align:center;
+      font-weight:900;
+      font-size:16px;
+    }
+    .fracSlash{
+      font-weight:1000;
+      color:#334155;
+      padding:0 2px;
+      user-select:none;
+    }
+    .fracHint{
+      margin-top:6px;
+      color:#64748b;
+      font-weight:650;
+      font-size:14px;
+      line-height:1.5;
+    }
+
     /* ===== PRINT STYLES ===== */
     .printReport{ display:none; }
 
@@ -164,7 +190,6 @@
       body{ background:#fff; padding:0; }
       .card{ box-shadow:none; padding:0; max-width:none; border-radius:0; }
 
-      /* Hide everything except printable report */
       .card > *:not(#printReport){
         display:none !important;
       }
@@ -191,8 +216,7 @@
   <h1>Soccer Maths Practice (Free Demo)</h1>
 
   <p class="intro">
-    Type your answer, press <b>Check</b>, then press <b>Next</b>.<br>
-    <span class="note">Tip: You can type a fraction like <b>1/4</b> or a decimal like <b>0.25</b>.</span>
+    Type your answer, press <b>Check</b>, then press <b>Next</b>.
   </p>
 
   <!-- START -->
@@ -227,7 +251,21 @@
   <!-- QUIZ -->
   <div id="qa" class="hide">
     <div id="q" class="q"></div>
-    <input id="ans" inputmode="text" placeholder="Type a number (or fraction like 1/2)">
+
+    <!-- Input type A: number/decimal -->
+    <div id="numBox">
+      <input id="ans" inputmode="decimal" placeholder="Type a number">
+    </div>
+
+    <!-- Input type B: fraction (numerator/denominator) -->
+    <div id="fracBox" class="hide">
+      <div class="fracRow">
+        <input id="fracNum" inputmode="numeric" pattern="[0-9]*" placeholder="Numerator">
+        <span class="fracSlash">/</span>
+        <input id="fracDen" inputmode="numeric" pattern="[0-9]*" placeholder="Denominator">
+      </div>
+      <div class="fracHint">Tip: You can type any equivalent fraction (e.g., 2/8 is the same as 1/4).</div>
+    </div>
 
     <div class="btnrow">
       <button id="checkBtn" onclick="check()">Check</button>
@@ -285,7 +323,7 @@
     </div>
   </div>
 
-  <!-- PRINT REPORT (only appears if parent chooses it) -->
+  <!-- PRINT REPORT -->
   <div id="printReport" class="printReport">
     <h2>Maths Practice Report</h2>
     <p class="small">
@@ -321,16 +359,23 @@
 const ENDPOINT_URL =
   "https://script.google.com/macros/s/AKfycbwvWZJLRflPGQA3s5P2-B5LkTFonS4Z1SPI5-85lzlj1lFY02qXJzTd239PsiB0WICr/exec";
 
-/* Year 3–6: mixed skills (add/sub, mult/div, fractions/decimals, measurement) */
+/*
+  type:
+   - "number"   => uses #ans (number/decimal)
+   - "fraction" => uses #fracNum + #fracDen
+*/
 const qs = [
-  { q:"⚽ A team scored 27 goals in a season, then 15 more. How many goals altogether?", a:42, skill:"Addition & Subtraction" },
-  { q:"🥅 A stadium has 6 rows with 84 seats in each row. How many seats is that?", a:504, skill:"Multiplication" },
-  { q:"🎒 72 soccer balls are shared equally into 8 bags. How many balls per bag?", a:9, skill:"Division" },
-  { q:"⏱️ A match is 90 minutes and halftime break is 15 minutes. Total time at the ground?", a:105, skill:"Word Problems" },
-  { q:"📏 A field is 60 m long and 40 m wide. What is the perimeter? (number only)", a:200, skill:"Measurement" },
-  { q:"🍊 3/4 of 24 oranges are used. How many oranges is that?", a:18, skill:"Fractions" },
-  { q:"💧 A drink bottle holds 0.6 L. How many millilitres is that?", a:600, skill:"Decimals & Units" },
-  { q:"📊 A player scored 12 goals from 48 shots. What fraction of shots were goals? (e.g., 1/4 or 0.25)", a:0.25, skill:"Fractions" }
+  { q:"⚽ A team scored 27 goals in a season, then 15 more. How many goals altogether?", type:"number", a:42, skill:"Addition & Subtraction" },
+  { q:"🥅 A stadium has 6 rows with 84 seats in each row. How many seats is that?", type:"number", a:504, skill:"Multiplication" },
+  { q:"🎒 72 soccer balls are shared equally into 8 bags. How many balls per bag?", type:"number", a:9, skill:"Division" },
+  { q:"📏 A field is 60 m long and 40 m wide. What is the perimeter? (number only)", type:"number", a:200, skill:"Measurement" },
+
+  // Fraction questions (2nd input type)
+  { q:"📊 A player scored 12 goals from 48 shots. What fraction of shots were goals?", type:"fraction", aN:1, aD:4, skill:"Fractions" },
+  { q:"🍊 3/4 of 24 oranges are used. How many oranges is that?", type:"number", a:18, skill:"Fractions" },
+
+  { q:"💧 A drink bottle holds 0.6 L. How many millilitres is that?", type:"number", a:600, skill:"Decimals & Units" },
+  { q:"🏟️ One quarter of the seats are VIP. If there are 200 seats, what fraction is VIP? (write the fraction)", type:"fraction", aN:1, aD:4, skill:"Fractions" }
 ];
 
 let i=-1, score=0;
@@ -339,24 +384,50 @@ let gotCorrect=new Array(qs.length).fill(false);
 
 const el=id=>document.getElementById(id);
 
-/* ================= SAFE PARSER (no eval) ================= */
-function parseAnswer(raw){
+/* ================= HELPERS ================= */
+function showInputForQuestion(qObj){
+  const isFrac = qObj.type === "fraction";
+  el("numBox").style.display = isFrac ? "none" : "block";
+  el("fracBox").classList.toggle("hide", !isFrac);
+
+  // clear both input types
+  el("ans").value = "";
+  el("fracNum").value = "";
+  el("fracDen").value = "";
+
+  // focus
+  setTimeout(()=>{
+    if(isFrac) el("fracNum").focus();
+    else el("ans").focus();
+  }, 0);
+}
+
+function parseNumber(raw){
   const s = (raw || "").trim().replace(/\s+/g,"");
   if(!s) return NaN;
-
-  // Allow fractions like "3/4"
-  if(s.includes("/")){
-    const parts = s.split("/");
-    if(parts.length !== 2) return NaN;
-    const num = Number(parts[0]);
-    const den = Number(parts[1]);
-    if(!Number.isFinite(num) || !Number.isFinite(den) || den === 0) return NaN;
-    return num/den;
-  }
-
-  // Allow decimals/integers
   const v = Number(s);
   return Number.isFinite(v) ? v : NaN;
+}
+
+function gcd(a,b){
+  a=Math.abs(a); b=Math.abs(b);
+  while(b){ const t=a%b; a=b; b=t; }
+  return a || 1;
+}
+
+function readFraction(){
+  const n = Number(el("fracNum").value.trim());
+  const d = Number(el("fracDen").value.trim());
+  if(!Number.isInteger(n) || !Number.isInteger(d) || d === 0) return null;
+
+  // reduce (optional, helps printing/consistency)
+  const g = gcd(n,d);
+  return { n: n/g, d: d/g };
+}
+
+function fractionEquals(n1,d1,n2,d2){
+  // cross-multiply to accept equivalent fractions
+  return (n1*d2) === (n2*d1);
 }
 
 /* ================= FLOW ================= */
@@ -378,27 +449,36 @@ function next(){
   el("fb").textContent="";
   el("fb").className="";
   el("nextBtn").disabled=true;
-  el("ans").value="";
 
   if(i>=qs.length){ finish(); return; }
+
   el("q").textContent=qs[i].q;
-  el("ans").focus();
+  showInputForQuestion(qs[i]);
 }
 
 function check(){
-  const user = parseAnswer(el("ans").value);
+  const qObj = qs[i];
   const box = el("fb");
 
-  if(!Number.isFinite(user)){
-    box.className="feedback bad";
-    box.textContent="Please type a number (or a fraction like 1/2).";
-    return;
+  let ok = false;
+
+  if(qObj.type === "fraction"){
+    const f = readFraction();
+    if(!f){
+      box.className="feedback bad";
+      box.textContent="Please type a numerator and denominator (whole numbers).";
+      return;
+    }
+    ok = fractionEquals(f.n, f.d, qObj.aN, qObj.aD);
+  }else{
+    const user = parseNumber(el("ans").value);
+    if(!Number.isFinite(user)){
+      box.className="feedback bad";
+      box.textContent="Please type a number.";
+      return;
+    }
+    ok = Math.abs(user - qObj.a) < 1e-9;
   }
-
-  const correct = qs[i].a;
-
-  // Compare numerically (handles 0.25 vs 1/4)
-  const ok = Math.abs(user - correct) < 1e-9;
 
   if(ok){
     if(!gotCorrect[i]) score++;
@@ -410,7 +490,6 @@ function check(){
     box.textContent="❌ Not quite — try again, then press Check.";
   }
 
-  // allow Next after Check
   el("nextBtn").disabled=false;
 }
 
@@ -437,7 +516,6 @@ function drawChart(vals){
   const n=vals.length;
   const chartW=W-L-R, chartH=H-T-B;
 
-  // axes
   ctx.strokeStyle="#111827";
   ctx.lineWidth=2;
   ctx.beginPath();
@@ -446,7 +524,6 @@ function drawChart(vals){
   ctx.lineTo(W-R,H-B);
   ctx.stroke();
 
-  // y labels
   ctx.fillStyle="#111827";
   ctx.font="14px system-ui";
   ctx.fillText("1", 30, T+10);
@@ -470,7 +547,7 @@ function drawChart(vals){
   });
 }
 
-/* ================= PARENT SUMMARY (by skill) ================= */
+/* ================= PARENT SUMMARY ================= */
 function buildParentSummary(){
   const skillStats = {};
   qs.forEach((item, idx)=>{
@@ -491,7 +568,6 @@ function buildParentSummary(){
   }
   el("parentOverview").textContent = overview;
 
-  // Strengths: top 3 skills by accuracy
   const skillsSorted = Object.entries(skillStats)
     .map(([skill, s])=>({ skill, rate: s.correct / s.total }))
     .sort((a,b)=> b.rate - a.rate);
