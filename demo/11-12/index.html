@@ -124,6 +124,7 @@
       <button id="checkBtn" onclick="check()">Check</button>
       <button id="nextBtn" class="secondary" onclick="next()" disabled>Next</button>
       <button class="secondary" onclick="backToGrade()">Change grade</button>
+      <button class="secondary" onclick="goToDemoHome()">Back to Free Demos</button>
     </div>
   </div>
 
@@ -166,6 +167,7 @@
       <button onclick="printOrSkip()">🖨️ Print / Save PDF</button>
       <button class="secondary" onclick="restart()">Try again</button>
       <button class="secondary" onclick="backToGrade()">Change grade</button>
+      <button class="secondary" onclick="goToDemoHome()">Back to Free Demos</button>
     </div>
 
     <div id="saveStatus" class="note"></div>
@@ -275,39 +277,38 @@ function updatePrecisionNote(){
   }
 }
 
-/* ✅ NEW: go back to grade selection (without leaving page) */
+/* Go back to grade selection */
 function backToGrade(){
-  // reset quiz state
   qs = [];
   gotCorrect = [];
   i = -1;
   score = 0;
 
-  // clear UI
   el("fb").textContent = "";
   el("fb").className = "";
   el("hint").textContent = "";
   el("ans").value = "";
   el("precisionNote").textContent = "";
 
-  // hide quiz/results
   el("qa").classList.add("hide");
   el("qa").style.display = "none";
   el("end").classList.add("hide");
 
-  // show start/profile
   el("profileBox").style.display = "block";
   el("startButtons").style.display = "flex";
   el("startMsg").style.display = "block";
 
-  // force re-select grade (prevents accidental wrong restart)
   el("studentGrade").value = "";
 
-  // restore headings
   el("pill").textContent = "🏆 Year 11 – Year 12 • Nursing Modelling";
   el("titleH1").textContent = "Nursing Modelling (Maths) — Free Demo";
 
   el("studentGrade").focus();
+}
+
+/* ✅ NEW: Back to demo hub page */
+function goToDemoHome(){
+  window.location.href = "https://www.magicmathmaster.com.au/demo/";
 }
 
 /* ================= FLOW ================= */
@@ -330,11 +331,8 @@ function start(){
   el("startButtons").style.display = "none";
   el("startMsg").style.display = "none";
 
-  // IMPORTANT: undo any previous "display:none" from backToGrade/finish
   el("qa").style.display = "block";
   el("qa").classList.remove("hide");
-
-  // hide results if they were shown before
   el("end").classList.add("hide");
 
   next();
