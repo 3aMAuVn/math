@@ -34,12 +34,7 @@
     .intro{color:#555;font-weight:650;line-height:1.6;margin-bottom:10px;}
     .q{font-size:20px;font-weight:900;margin:14px 0 10px;}
 
-    label{
-      display:block;
-      margin-bottom:6px;
-      font-weight:800;
-      color:#334155;
-    }
+    label{display:block;margin-bottom:6px;font-weight:800;color:#334155;}
     input,select{
       width:100%;
       padding:12px;
@@ -47,6 +42,7 @@
       border-radius:12px;
       border:1px solid #ccc;
       box-sizing:border-box;
+      background:#fff;
     }
 
     .row2{
@@ -79,6 +75,9 @@
       color:#0b5ed7;
     }
     button:disabled{opacity:.55;cursor:not-allowed;}
+
+    /* Start screen: consistent widths for Start + Back */
+    #startButtons button{ flex: 1 1 240px; }
 
     .feedback{
       margin-top:12px;
@@ -159,23 +158,16 @@
 
     /* ===== PRINT STYLES ===== */
     .printReport{ display:none; }
-
     @media print{
       body{ background:#fff; padding:0; }
       .card{ box-shadow:none; padding:0; max-width:none; border-radius:0; }
-
-      /* Hide everything except printable report */
-      .card > *:not(#printReport){
-        display:none !important;
-      }
-
+      .card > *:not(#printReport){ display:none !important; }
       #printReport{
         display:block !important;
         padding:18px;
         font-size:14px;
         line-height:1.6;
       }
-
       #printReport h2, #printReport h3 { color:#000; margin: 10px 0 6px; }
       #printReport .small { color:#333; font-size:13px; }
       #printReport ul{ margin-left:18px; }
@@ -192,6 +184,7 @@
 
   <p class="intro">
     Type your answer, press <b>Check</b>, then press <b>Next</b>.
+    <span class="note">Tip: Press <b>Enter</b> to Check. After a check, press <b>Enter</b> again for Next.</span>
   </p>
 
   <!-- START -->
@@ -211,6 +204,7 @@
           <option>Year 1</option>
           <option>Year 2</option>
         </select>
+        <div class="note" id="gradeHint" style="margin-top:8px;">Please choose Prep, Year 1, or Year 2.</div>
       </div>
     </div>
     <div class="note">
@@ -219,11 +213,13 @@
   </div>
 
   <div id="startButtons" class="btnrow">
-    <button onclick="start()">Start</button>
+    <button id="startBtn" onclick="start()" disabled>Start</button>
+    <button class="secondary" onclick="goToDemoHome()">Back to Free Demos</button>
   </div>
 
   <!-- QUIZ -->
   <div id="qa" class="hide">
+    <div id="qCounter" class="note" style="margin-top:0; font-weight:900; color:#334155;"></div>
     <div id="q" class="q"></div>
     <input id="ans" inputmode="numeric" placeholder="Type a number">
 
@@ -244,7 +240,7 @@
       <div class="resultTitle">Results overview</div>
       <div id="pctText"></div>
       <canvas id="chart" width="900" height="260"></canvas>
-      <div class="note">Blue bar = correct (1) • Red bar = not yet correct (0)</div>
+      <div class="note">Blue = correct (✔) • Red = incorrect (✘)</div>
     </div>
 
     <!-- Parent summary -->
@@ -273,6 +269,7 @@
     <div class="btnrow">
       <button onclick="printOrSkip()">🖨️ Print / Save PDF</button>
       <button class="secondary" onclick="restart()">Try again</button>
+      <button class="secondary" onclick="goToDemoHome()">Back to Free Demos</button>
     </div>
 
     <div id="saveStatus" class="note"></div>
@@ -283,13 +280,14 @@
     </div>
   </div>
 
-  <!-- PRINT REPORT (only appears if parent chooses it) -->
+  <!-- PRINT REPORT -->
   <div id="printReport" class="printReport">
     <h2>Maths Practice Report</h2>
     <p class="small">
       <b>Student:</b> <span id="rName"></span><br>
       <b>Grade:</b> <span id="rGrade"></span><br>
-      <b>Date:</b> <span id="rDate"></span>
+      <b>Date:</b> <span id="rDate"></span><br>
+      <b>Demo:</b> Prep–Year 2 Animals
     </p>
 
     <div class="divider"></div>
@@ -319,31 +317,92 @@
 const ENDPOINT_URL =
   "https://script.google.com/macros/s/AKfycbwvWZJLRflPGQA3s5P2-B5LkTFonS4Z1SPI5-85lzlj1lFY02qXJzTd239PsiB0WICr/exec";
 
-/* Keep questions simple and age-appropriate */
-const qs = [
-  { q:"🐶 There are 5 puppies and 2 kittens. How many animals altogether?", a:7, skill:"addition" },
-  { q:"🐰 9 rabbits are in a pen. 3 hop away. How many are left?", a:6, skill:"subtraction" },
-  { q:"🐤 4 nests. Each nest has 2 chicks. How many chicks?", a:8, skill:"groups" },
-  { q:"🦁 3 lions. Each has 4 legs. How many legs?", a:12, skill:"groups" },
-  { q:"🐢 You see 10 turtles. 1 hides. How many can you see now?", a:9, skill:"subtraction" },
-  { q:"🐠 6 fish swim by. Then 6 more swim by. How many fish?", a:12, skill:"addition" }
+/* ================= QUESTION BANKS (10 each: easy → hard) ================= */
+/* Prep */
+const qsPrep = [
+  { q:"🐶 There are 3 puppies and 2 kittens. How many animals altogether?", a:5, skill:"Addition" },
+  { q:"🐰 9 rabbits are in a pen. 4 hop away. How many are left?", a:5, skill:"Subtraction" },
+  { q:"🐤 4 nests. Each nest has 2 eggs. How many eggs?", a:8, skill:"Groups" },
+  { q:"🐢 Counting by 2: 2, 4, 6, __. What number comes next?", a:8, skill:"Patterns" },
+  { q:"🦁 Type the bigger number: 14 or 9.", a:14, skill:"Comparing" },
+  { q:"🐟 You see 10 fish. 1 swims away. How many can you see now?", a:9, skill:"Subtraction" },
+  { q:"🐸 A frog jumps 5 steps, then 3 more. How many steps?", a:8, skill:"Addition" },
+  { q:"🔺 How many sides does a triangle have?", a:3, skill:"Shapes" },
+  { q:"🥕 There are 12 carrots shared equally between 3 rabbits. How many carrots each?", a:4, skill:"Sharing" },
+  { q:"🐨 You have 7 koalas and you find 6 more. How many koalas now?", a:13, skill:"Addition (harder)" }
 ];
 
-let i=-1, score=0;
-let student={name:"",grade:""};
-let gotCorrect=new Array(qs.length).fill(false);
+/* Year 1 */
+const qsY1 = [
+  { q:"🐶 There are 12 dogs and 5 cats. How many animals altogether?", a:17, skill:"Addition" },
+  { q:"🦜 There are 18 birds. 9 fly away. How many birds are left?", a:9, skill:"Subtraction" },
+  { q:"🐤 6 cages. Each cage has 3 parrots. How many parrots?", a:18, skill:"Groups" },
+  { q:"🔢 Counting by 5: 5, 10, 15, __. What number comes next?", a:20, skill:"Patterns" },
+  { q:"➕ Missing number: __ + 7 = 15. What number goes in the blank?", a:8, skill:"Missing number" },
+  { q:"📏 Type the smaller number: 16 or 19.", a:16, skill:"Comparing" },
+  { q:"🍪 24 treats are shared equally between 4 dogs. How many treats each?", a:6, skill:"Division" },
+  { q:"🥚 Half of 10 eggs is __. How many eggs?", a:5, skill:"Halves" },
+  { q:"⏱️ 1 hour = __ minutes. Type the number of minutes.", a:60, skill:"Time facts" },
+  { q:"🐰 There are 9 rabbits. 5 more join. Then 4 hop away. How many rabbits now?", a:10, skill:"Two-step" }
+];
 
-const el=id=>document.getElementById(id);
+/* Year 2 */
+const qsY2 = [
+  { q:"🦊 Addition: 47 + 28 = ?", a:75, skill:"Two-digit addition" },
+  { q:"🦉 Subtraction: 63 − 27 = ?", a:36, skill:"Two-digit subtraction" },
+  { q:"🐾 8 packs of stickers. Each pack has 6 stickers. How many stickers?", a:48, skill:"Multiplication" },
+  { q:"🥕 72 carrots are shared equally between 9 rabbits. How many carrots each?", a:8, skill:"Division" },
+  { q:"🍏 Fractions: 3/4 of 20 apples is __ apples.", a:15, skill:"Fractions of a number" },
+  { q:"💰 Money: A toy costs $7. You pay with $10. How much change?", a:3, skill:"Money" },
+  { q:"⏱️ Time: Starts at 2:10 pm and lasts 35 minutes. Finish time? (Type HHMM, e.g., 2:45 pm = 245)", a:245, skill:"Time" },
+  { q:"📏 Perimeter: A rectangle is 9 cm long and 5 cm wide. What is the perimeter (cm)?", a:28, skill:"Perimeter" },
+  { q:"📊 Average: 6, 8, 10, 12. What is the mean (average)?", a:9, skill:"Averages" },
+  { q:"🧮 Two-step: You have 120 animal cards. Give away 35, get 18 more, then give away 22. How many cards now?", a:81, skill:"Two-step" }
+];
+
+/* ================= STATE ================= */
+let qs = [];
+let i = -1, score = 0;
+let student = { name:"", grade:"" };
+let gotCorrect = [];
+
+let checkedThisView = false;
+
+const el = id => document.getElementById(id);
+
+/* ================= NAV ================= */
+function goToDemoHome(){
+  window.location.href = "https://www.magicmathmaster.com.au/demo/";
+}
+
+/* ================= START READINESS ================= */
+function validateStart(){
+  const nameOk = el("studentName").value.trim().length > 0;
+  const gradeOk = !!el("studentGrade").value;
+  el("startBtn").disabled = !(nameOk && gradeOk);
+  el("gradeHint").textContent = gradeOk ? `Selected: ${el("studentGrade").value}` : "Please choose Prep, Year 1, or Year 2.";
+}
 
 /* ================= FLOW ================= */
 function start(){
-  student.name=el("studentName").value.trim();
-  student.grade=el("studentGrade").value || "—";
-  if(!student.name){ alert("Please enter the student name."); return; }
+  student.name = el("studentName").value.trim();
+  student.grade = el("studentGrade").value;
 
-  el("profileBox").style.display="none";
-  el("startButtons").style.display="none";
-  el("startMsg").style.display="none";
+  if(!student.name){ alert("Please enter the student name."); return; }
+  if(!student.grade){ alert("Please choose a grade."); return; }
+
+  // select question bank (10 each)
+  if(student.grade === "Prep") qs = qsPrep;
+  else if(student.grade === "Year 1") qs = qsY1;
+  else qs = qsY2;
+
+  i = -1;
+  score = 0;
+  gotCorrect = new Array(qs.length).fill(false);
+
+  el("profileBox").style.display = "none";
+  el("startButtons").style.display = "none";
+  el("startMsg").style.display = "none";
   el("qa").classList.remove("hide");
 
   next();
@@ -351,21 +410,26 @@ function start(){
 
 function next(){
   i++;
-  el("fb").textContent="";
-  el("fb").className="";
-  el("nextBtn").disabled=true;
-  el("ans").value="";
+  checkedThisView = false;
 
-  if(i>=qs.length){ finish(); return; }
-  el("q").textContent=qs[i].q;
+  el("fb").textContent = "";
+  el("fb").className = "";
+  el("nextBtn").disabled = true;
+  el("ans").value = "";
+
+  if(i >= qs.length){ finish(); return; }
+
+  el("qCounter").textContent = `Question ${i+1} of ${qs.length}`;
+  el("q").textContent = qs[i].q;
   el("ans").focus();
 }
 
 function check(){
   const v = Number(el("ans").value);
   if(!Number.isFinite(v)){
-    el("fb").className="feedback bad";
-    el("fb").textContent="Please type a number.";
+    el("fb").className = "feedback bad";
+    el("fb").textContent = "Please type a number.";
+    checkedThisView = true;
     return;
   }
 
@@ -373,42 +437,42 @@ function check(){
 
   if(correct){
     if(!gotCorrect[i]) score++;
-    gotCorrect[i]=true;
-    el("fb").className="feedback ok";
-    el("fb").textContent="✅ Correct!";
+    gotCorrect[i] = true;
+    el("fb").className = "feedback ok";
+    el("fb").textContent = "✅ Correct!";
   }else{
-    el("fb").className="feedback bad";
-    el("fb").textContent="Not quite — try again, then press Check.";
+    gotCorrect[i] = false;
+    el("fb").className = "feedback bad";
+    el("fb").textContent = "❌ Not quite — try again, then press Check.";
   }
 
-  // OPTION B: allow Next only after Check
-  el("nextBtn").disabled=false;
+  el("nextBtn").disabled = false;
+  checkedThisView = true;
 }
 
 function finish(){
-  el("qa").style.display="none";
+  el("qa").style.display = "none";
   el("end").classList.remove("hide");
 
   const pct = Math.round(score / qs.length * 100);
   el("finalLine").textContent = `Score: ${score}/${qs.length} (${pct}%)`;
   el("pctText").textContent = `Percentage correct: ${pct}%`;
 
-  drawChart(gotCorrect.map(v=>v?1:0));
+  drawChart(gotCorrect.map(v => v ? 1 : 0));
   buildParentSummary();
   saveResult(pct);
 }
 
-/* ================= GRAPH ================= */
-function drawChart(vals){
-  const c=el("chart"), ctx=c.getContext("2d");
+/* ================= GRAPH (shows RED bars too) ================= */
+function drawChart(vals01){
+  const c = el("chart"), ctx = c.getContext("2d");
   ctx.clearRect(0,0,c.width,c.height);
 
   const W=c.width, H=c.height;
   const L=52, R=18, T=18, B=45;
-  const n=vals.length;
+  const n=vals01.length;
   const chartW=W-L-R, chartH=H-T-B;
 
-  // axes
   ctx.strokeStyle="#111827";
   ctx.lineWidth=2;
   ctx.beginPath();
@@ -417,27 +481,35 @@ function drawChart(vals){
   ctx.lineTo(W-R,H-B);
   ctx.stroke();
 
-  // y labels
-  ctx.fillStyle="#111827";
-  ctx.font="14px system-ui";
-  ctx.fillText("1", 30, T+10);
-  ctx.fillText("0", 30, H-B+6);
-
   const gap=12;
   const barW=Math.max(24, (chartW - gap*(n-1))/n);
 
-  vals.forEach((v,i)=>{
-    const barH=v*chartH;
-    const x=L + i*(barW+gap);
-    const y=(H-B)-barH;
+  const incorrectH = 18;
 
-    ctx.fillStyle = v ? "rgba(11,94,215,.85)" : "rgba(239,68,68,.70)";
-    ctx.fillRect(x,y,barW,barH);
+  vals01.forEach((v,i)=>{
+    const x=L + i*(barW+gap);
+
+    if(v === 1){
+      const barH = chartH;
+      const y = (H-B)-barH;
+      ctx.fillStyle = "rgba(11,94,215,.85)";
+      ctx.fillRect(x,y,barW,barH);
+      ctx.fillStyle="#111827";
+      ctx.font="13px system-ui";
+      ctx.fillText("✔", x+barW/2-4, y-6);
+    }else{
+      const barH = incorrectH;
+      const y = (H-B)-barH;
+      ctx.fillStyle = "rgba(239,68,68,.75)";
+      ctx.fillRect(x,y,barW,barH);
+      ctx.fillStyle="#111827";
+      ctx.font="13px system-ui";
+      ctx.fillText("✘", x+barW/2-4, y-6);
+    }
 
     ctx.fillStyle="#111827";
     ctx.font="12px system-ui";
     ctx.fillText(`Q${i+1}`, x+6, H-B+18);
-    ctx.fillText(String(v), x+barW/2-3, y-6);
   });
 }
 
@@ -447,12 +519,11 @@ function buildParentSummary(){
   const nextSteps = [];
 
   qs.forEach((q,i)=>{
-    const plain = q.q.replace(/^[^ ]+ /,""); // remove emoji for summary
+    const plain = q.q.replace(/^[^ ]+ /,"");
     if(gotCorrect[i]) strengths.push(plain);
     else nextSteps.push(plain);
   });
 
-  // Overview tone
   let overview = "";
   if(score === qs.length){
     overview = "🌟 Excellent work! Your child showed strong understanding across all questions today.";
@@ -461,15 +532,14 @@ function buildParentSummary(){
   }else{
     overview = "🌱 Your child is still building confidence, which is very normal at this stage.";
   }
-
   el("parentOverview").textContent = overview;
 
   el("strengthList").innerHTML = strengths.length
-    ? strengths.slice(0,4).map(s=>`<li>${s}</li>`).join("")
+    ? strengths.slice(0,5).map(s=>`<li>${s}</li>`).join("")
     : "<li>Showing effort and persistence — a strong learning skill.</li>";
 
   el("nextList").innerHTML = nextSteps.length
-    ? nextSteps.slice(0,4).map(s=>`<li>${s}</li>`).join("")
+    ? nextSteps.slice(0,5).map(s=>`<li>${s}</li>`).join("")
     : "<li>Continue practising to build speed and confidence.</li>";
 }
 
@@ -488,19 +558,16 @@ function buildPrintReport(){
   const pct = Math.round(score / qs.length * 100);
   const results01 = gotCorrect.map(v=>v?1:0);
 
-  // Fill header
   el("rName").textContent = student.name;
   el("rGrade").textContent = student.grade || "—";
   el("rDate").textContent = new Date().toLocaleDateString();
 
-  // Summary sentence
   el("rSummary").textContent =
-    `Score: ${score}/${qs.length} (${pct}%). ` +
-    (score===qs.length ? "Strong understanding across all questions."
-      : score>=qs.length*0.6 ? "Developing understanding with some areas to strengthen."
+    `Grade: ${student.grade}. Score: ${score}/${qs.length} (${pct}%). ` +
+    (pct>=85 ? "Strong understanding across most skills."
+      : pct>=60 ? "Developing understanding with some areas to strengthen."
       : "Still building confidence — very normal at this stage.");
 
-  // Strengths + next steps
   const strengths = qs.filter((_,i)=>results01[i]===1).map(q=>q.q.replace(/^[^ ]+ /,""));
   const nextSteps  = qs.filter((_,i)=>results01[i]===0).map(q=>q.q.replace(/^[^ ]+ /,""));
 
@@ -515,7 +582,10 @@ function buildPrintReport(){
 
 /* ================= SAVE TO SHEET ================= */
 async function saveResult(pct){
-  el("saveStatus").textContent="Sending result…";
+  el("saveStatus").textContent = "Saving your result to Magic Math Master records…";
+
+  // 1 = correct, 0 = incorrect (this demo forces every question to be checked)
+  const answers = qs.map((_, idx) => (gotCorrect[idx] ? 1 : 0));
 
   try{
     await fetch(ENDPOINT_URL,{
@@ -523,37 +593,53 @@ async function saveResult(pct){
       mode:"no-cors",
       headers:{ "Content-Type":"text/plain;charset=utf-8" },
       body:JSON.stringify({
-        level:"Prep–2",
-        name:student.name,
-        grade:student.grade,
-        score:score,
-        total:qs.length,
-        percent:pct,
-        perQuestion01:gotCorrect.map(v=>v?1:0),
-        pageUrl:location.href,
-        userAgent:navigator.userAgent
+        group:"Prep–2",
+        level: student.grade,          // Apps Script requires 'level'
+        theme:"Animals",
+        name: student.name,
+        grade: student.grade,
+        score: score,
+        total: qs.length,
+        percent: pct,
+
+        // helpful for your Apps Script (records per-question)
+        answers: answers,
+
+        // backward compatible
+        perQuestion01: gotCorrect.map(v=>v?1:0),
+
+        pageUrl: location.href,
+        userAgent: navigator.userAgent
       })
     });
-    el("saveStatus").textContent="✅ Result sent.";
+
+    el("saveStatus").textContent = "✅ Saved to Magic Math Master records (no email sent).";
   }catch(e){
-    el("saveStatus").textContent="⚠️ Could not send result (temporary issue).";
+    el("saveStatus").textContent = "⚠️ Could not save right now (no email sent).";
   }
 }
 
 /* ================= RESET ================= */
-function restart(){
-  location.reload();
-}
+function restart(){ location.reload(); }
 
-/* Enter key triggers Check (kid-friendly) */
+/* ================= LISTENERS ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  validateStart();
+  el("studentName").addEventListener("input", validateStart);
+  el("studentGrade").addEventListener("change", validateStart);
+});
+
+/* Enter key: first Enter = Check, second Enter = Next */
 document.addEventListener("keydown", e=>{
-  if(e.key === "Enter"){
-    const quizVisible = !el("qa").classList.contains("hide") && el("qa").style.display !== "none";
-    if(quizVisible){
-      e.preventDefault();
-      check();
-    }
-  }
+  if(e.key !== "Enter") return;
+
+  const quizVisible = !el("qa").classList.contains("hide") && el("qa").style.display !== "none";
+  if(!quizVisible) return;
+
+  e.preventDefault();
+
+  if(checkedThisView) next();
+  else check();
 });
 </script>
 
