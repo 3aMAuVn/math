@@ -167,18 +167,13 @@
     @media print{
       body{ background:#fff; padding:0; }
       .card{ box-shadow:none; padding:0; max-width:none; border-radius:0; }
-
-      .card > *:not(#printReport){
-        display:none !important;
-      }
-
+      .card > *:not(#printReport){ display:none !important; }
       #printReport{
         display:block !important;
         padding:18px;
         font-size:14px;
         line-height:1.6;
       }
-
       #printReport h2, #printReport h3 { color:#000; margin: 10px 0 6px; }
       #printReport .small { color:#333; font-size:13px; }
       #printReport ul{ margin-left:18px; }
@@ -227,7 +222,6 @@
     </div>
   </div>
 
-  <!-- ✅ Start screen buttons (same as Year 3–6 style) -->
   <div id="startButtons" class="btnrow">
     <button id="startBtn" onclick="start()" disabled>Start</button>
     <button class="secondary" onclick="goToDemoHome()">Back to Free Demos</button>
@@ -381,46 +375,45 @@
 const ENDPOINT_URL =
   "https://script.google.com/macros/s/AKfycbwvWZJLRflPGQA3s5P2-B5LkTFonS4Z1SPI5-85lzlj1lFY02qXJzTd239PsiB0WICr/exec";
 
-/* ================= QUESTION BANKS (10 each, easy → hard) ================= */
+/* ================= QUESTION BANKS (10 each) ================= */
 const qsPrep = [
-  { q:"🐶 Easy: 2 puppies + 3 puppies = ?", a:5,  skill:"Addition" },
-  { q:"🐰 Easy: 8 rabbits − 5 rabbits = ?", a:3,  skill:"Subtraction" },
-  { q:"🐤 Easy: 4 nests. Each nest has 2 eggs. How many eggs?", a:8, skill:"Groups" },
-  { q:"🔢 Medium: Counting by 2: 2, 4, 6, __. What number comes next?", a:8, skill:"Patterns" },
-  { q:"🔺 Medium: How many sides does a triangle have?", a:3, skill:"Shapes" },
-  { q:"📈 Medium: Which is bigger? 17 or 14 (type the bigger number)", a:17, skill:"Comparing" },
-  { q:"🐟 Medium: 10 fish are swimming. 3 swim away. How many fish now?", a:7, skill:"Subtraction" },
-  { q:"🦆 Medium: 6 ducks are in the pond. 2 more join. How many ducks now?", a:8, skill:"Addition" },
-  { q:"🥕 Hard: 12 carrots shared equally between 3 rabbits. How many carrots each?", a:4, skill:"Sharing" },
-  { q:"🐾 Hard: 5 puppies are playing. 4 more come. Then 3 leave. How many puppies now?", a:6, skill:"Two-step" }
+  { q:"🐶 Easy: There are 2 puppies at the park. 3 more puppies arrive. How many puppies altogether?", a:5,  skill:"Addition" },
+  { q:"🐰 Easy: There are 8 rabbits in a pen. 5 hop away. How many rabbits are left?", a:3,  skill:"Subtraction" },
+  { q:"🐤 Easy: There are 4 nests. Each nest has 2 eggs. How many eggs altogether?", a:8,  skill:"Multiplication (Groups)" },
+  { q:"🔢 Medium: Counting by 2: 2, 4, 6, __. What number comes next?", a:8,  skill:"Patterns" },
+  { q:"🔺 Medium: A triangle is a shape. How many sides does a triangle have?", a:3,  skill:"Shapes" },
+  { q:"📈 Medium: Which number is bigger: 17 or 14? (Type the bigger number)", a:17, skill:"Comparing Numbers" },
+  { q:"🐟 Medium: 10 fish are swimming. 3 swim away. How many fish are swimming now?", a:7,  skill:"Subtraction" },
+  { q:"🦆 Medium: 6 ducks are in the pond. 2 more ducks join. How many ducks now?", a:8,  skill:"Addition" },
+  { q:"🥕 Hard: 12 carrots are shared equally between 3 rabbits. How many carrots does each rabbit get?", a:4,  skill:"Division (Sharing)" },
+  { q:"🐾 Hard: 5 puppies are playing. 4 more come. Then 3 leave. How many puppies are there now?", a:6,  skill:"Two-Step Problems" }
 ];
 
 const qsY1 = [
-  { q:"🐶 Easy: 14 dogs + 9 cats = ?", a:23, skill:"Addition" },
-  { q:"🦜 Easy: 25 birds − 8 birds = ?", a:17, skill:"Subtraction" },
-  { q:"🐤 Easy: 5 cages. Each cage has 3 birds. How many birds?", a:15, skill:"Groups" },
+  { q:"🐶 Easy: An animal rescue has 14 dogs and 9 cats. How many animals altogether?", a:23, skill:"Addition" },
+  { q:"🦜 Easy: 25 birds are sitting on a fence. 8 birds fly away. How many birds are left?", a:17, skill:"Subtraction" },
+  { q:"🐤 Easy: There are 5 cages. Each cage has 3 birds. How many birds altogether?", a:15, skill:"Multiplication (Groups)" },
   { q:"🔢 Medium: Counting by 5: 15, 20, 25, __. What comes next?", a:30, skill:"Patterns" },
-  { q:"➕ Medium: Missing number: __ + 6 = 20. What is the missing number?", a:14, skill:"Missing number" },
-  { q:"📉 Medium: Which is smaller? 38 or 41 (type the smaller number)", a:38, skill:"Comparing" },
-  { q:"🍪 Medium: 30 treats shared equally between 5 dogs. How many treats each?", a:6, skill:"Division" },
-  { q:"🥚 Medium: Half of 18 eggs is __. How many eggs?", a:9, skill:"Halves" },
-  { q:"💰 Hard: A toy costs $7. You pay with $12. How much change?", a:5, skill:"Money" },
-  { q:"🐰 Hard: 16 rabbits. 5 join. Then 9 hop away. How many rabbits now?", a:12, skill:"Two-step" }
+  { q:"➕ Medium: A child has some stickers. After getting 6 more, they have 20. How many did they have at first?", a:14, skill:"Missing Number" },
+  { q:"📉 Medium: Which number is smaller: 38 or 41? (Type the smaller number)", a:38, skill:"Comparing Numbers" },
+  { q:"🍪 Medium: 30 treats are shared equally between 5 dogs. How many treats does each dog get?", a:6,  skill:"Division (Sharing)" },
+  { q:"🥚 Medium: Half of 18 eggs is __. How many eggs is that?", a:9,  skill:"Fractions (Halves)" },
+  { q:"💰 Hard: A toy costs $7. You pay with $12. How much change do you get?", a:5,  skill:"Money" },
+  { q:"🐰 Hard: 16 rabbits are in a field. 5 more arrive. Then 9 hop away. How many rabbits are there now?", a:12, skill:"Two-Step Problems" }
 ];
 
 const qsY2 = [
-  { q:"🦊 Easy: 47 + 28 = ?", a:75, skill:"Addition" },
-  { q:"🦉 Easy: 63 − 27 = ?", a:36, skill:"Subtraction" },
-  { q:"🐾 Easy: 8 packs. Each pack has 7 stickers. How many stickers?", a:56, skill:"Multiplication" },
-  { q:"🎒 Medium: 84 soccer balls shared equally into 6 bags. How many balls per bag?", a:14, skill:"Division" },
-  { q:"🍏 Medium: 3/4 of 28 apples were used. How many apples were used?", a:21, skill:"Fractions of a number" },
+  { q:"🦊 Easy: A wildlife shelter has 47 animals. Then 28 more animals arrive. How many animals are there altogether?", a:75, skill:"Addition" },
+  { q:"🦉 Easy: There are 63 fish in a pond. 27 swim away. How many fish are left?", a:36, skill:"Subtraction" },
+  { q:"🐾 Easy: There are 8 packs. Each pack has 7 stickers. How many stickers altogether?", a:56, skill:"Multiplication (Groups)" },
+  { q:"🎒 Medium: 84 soccer balls are shared equally into 6 bags. How many balls per bag?", a:14, skill:"Division (Sharing)" },
+  { q:"🍏 Medium: 3/4 of 28 apples were used. How many apples were used?", a:21, skill:"Fractions (Of a Number)" },
   { q:"⏱️ Medium: Starts at 2:10 pm and lasts 35 minutes. Finish time? (Type HHMM, e.g., 2:45 pm = 245)", a:245, note:"Answer tip: type time as HHMM (e.g., 2:45 pm = 245).", skill:"Time" },
-  { q:"📏 Medium: Perimeter: A rectangle is 9 cm long and 5 cm wide. What is the perimeter (cm)?", a:28, skill:"Perimeter" },
+  { q:"📏 Medium: A rectangle is 9 cm long and 5 cm wide. What is the perimeter (cm)?", a:28, skill:"Measurement (Perimeter)" },
   { q:"🔟 Medium: Place value: What is the value of the digit 6 in 4,682?", a:600, skill:"Place Value" },
-  { q:"🚌 Hard: 3 buses bring 24 students each. 15 students leave early. How many students stay?", a:57, skill:"Two-step" },
-  { q:"🧮 Hard: You have 120 animal cards. Give away 35, get 18 more, then give away 22. How many cards now?", a:81, skill:"Two-step" }
+  { q:"🚌 Hard: 3 buses bring 24 students each. 15 students leave early. How many students stay?", a:57, skill:"Two-Step Problems" },
+  { q:"🧮 Hard: You have 120 animal cards. Give away 35, get 18 more, then give away 22. How many cards now?", a:81, skill:"Two-Step Problems" }
 ];
-
 /* ================= STATE ================= */
 let qs = [];
 let i = -1;
@@ -441,8 +434,16 @@ function goToDemoHome(){
 function validateStart(){
   const nameOk = el("studentName").value.trim().length > 0;
   const gradeOk = !!el("studentGrade").value;
-  el("startBtn").disabled = !(nameOk && gradeOk);
+
+  const btn = el("startBtn");
+  btn.disabled = !(nameOk && gradeOk);
+
   el("gradeHint").textContent = gradeOk ? `Selected: ${el("studentGrade").value}` : "Please choose Prep, Year 1, or Year 2.";
+
+  // ✅ When ready, focus Start so Enter starts immediately
+  if(!btn.disabled){
+    setTimeout(()=>btn.focus(), 0);
+  }
 }
 
 /* ================= PARSERS ================= */
@@ -494,7 +495,7 @@ function autoGradeAll(){
   }
 }
 function autoGradeIndex(idx){
-  const r = gradeOne(idx); // true / false / null
+  const r = gradeOne(idx);
   if(r === null) return;
 
   const newVal = (r === true);
@@ -562,7 +563,6 @@ function next(){
   stashAnswer();
   if(i >= 0) autoGradeIndex(i);
 
-  // last question -> finish flow
   if(i >= qs.length - 1){
     finishEarly();
     return;
@@ -759,45 +759,71 @@ function buildStudentSummary(){
 
 /* ================= PARENT SUMMARY ================= */
 function buildParentSummary(){
-  const unanswered = getUnanswered();
-  el("unansweredLine").textContent = unanswered.length ? unanswered.map(n=>`Q${n}`).join(", ") : "None ✅";
+  // Unanswered list (by question number)
+  const unanswered = [];
+  for(let k=0;k<qs.length;k++){
+    if(!isAnswered(k)) unanswered.push(k+1);
+  }
+  el("unansweredLine").textContent = unanswered.length
+    ? unanswered.map(n=>`Q${n}`).join(", ")
+    : "None ✅";
 
-  const skillStats = {};
+  // Build skill stats
+  const skillStats = {}; // { skill: { total, correct } }
   qs.forEach((item, idx)=>{
-    if(!skillStats[item.skill]) skillStats[item.skill] = { total:0, correct:0 };
-    skillStats[item.skill].total++;
-    if(gotCorrect[idx]) skillStats[item.skill].correct++;
+    const sk = item.skill || "Other";
+    if(!skillStats[sk]) skillStats[sk] = { total:0, correct:0 };
+    skillStats[sk].total++;
+    if(gotCorrect[idx]) skillStats[sk].correct++;
   });
 
+  // Overall overview text
   const pct = Math.round(score / qs.length * 100);
-
   let overview = "";
   if(pct >= 85) overview = "🌟 Strong work! Your child showed confident understanding across many skills today.";
-  else if(pct >= 60) overview = "👍 Good progress. Developing confidence, with a few skills to strengthen next.";
+  else if(pct >= 60) overview = "👍 Good progress. Your child is developing confidence, with a few skills to strengthen next.";
   else overview = "🌱 Still building confidence — very normal. With steady practice, accuracy improves quickly.";
-
   el("parentOverview").textContent = overview;
 
+  // Sort skills by accuracy
   const skillsSorted = Object.entries(skillStats)
-    .map(([skill, s])=>({ skill, rate: s.correct / s.total }))
-    .sort((a,b)=> b.rate - a.rate);
+    .map(([skill, s])=>({
+      skill,
+      correct: s.correct,
+      total: s.total,
+      rate: s.total ? (s.correct / s.total) : 0
+    }))
+    .sort((a,b)=>{
+      if(b.rate !== a.rate) return b.rate - a.rate;
+      return b.total - a.total;
+    });
 
+  // Choose strengths + focus areas
   const strengths = skillsSorted.filter(x=>x.rate >= 0.75).slice(0,3);
-  const nextSteps = skillsSorted.filter(x=>x.rate < 0.75).slice(0,3);
+  const focus     = skillsSorted.filter(x=>x.rate < 0.75).slice(0,3);
 
+  // Render strengths
   el("strengthList").innerHTML = strengths.length
-    ? strengths.map(x=>`<li><b>${x.skill}:</b> showing confidence.</li>`).join("")
+    ? strengths.map(x=>{
+        const pctSkill = Math.round(x.rate * 100);
+        return `<li><b>${x.skill}</b> — ${x.correct}/${x.total} correct (${pctSkill}%)</li>`;
+      }).join("")
     : "<li>Great effort and persistence — an important learning skill.</li>";
 
-  el("nextList").innerHTML = (unanswered.length
+  // Render next steps (include unanswered reminder first)
+  const unansweredItem = unanswered.length
     ? `<li><b>Finish unanswered questions first:</b> ${unanswered.map(n=>`Q${n}`).join(", ")}</li>`
-    : ""
-  ) + (nextSteps.length
-    ? nextSteps.map(x=>`<li><b>${x.skill}:</b> practise a few more examples to build accuracy.</li>`).join("")
-    : "<li>Keep practising to build speed and confidence.</li>"
-  );
-}
+    : "";
 
+  const focusItems = focus.length
+    ? focus.map(x=>{
+        const pctSkill = Math.round(x.rate * 100);
+        return `<li><b>${x.skill}</b> — ${x.correct}/${x.total} correct (${pctSkill}%). Practise a few more examples.</li>`;
+      }).join("")
+    : "<li>Keep practising to build speed and confidence.</li>";
+
+  el("nextList").innerHTML = unansweredItem + focusItems;
+}
 /* ================= PRINT REPORT ================= */
 function printOrSkip(){
   const include = el("includeReport").checked;
@@ -814,36 +840,74 @@ function buildPrintReport(){
   const unanswered = getUnanswered();
   const results01 = gotCorrect.map(v=>v?1:0);
 
+  // Header
   el("rName").textContent = student.name;
   el("rGrade").textContent = student.grade || "—";
   el("rDate").textContent = new Date().toLocaleDateString();
 
-  el("rUnanswered").textContent = unanswered.length ? unanswered.map(n=>`Q${n}`).join(", ") : "None";
-
+  // Summary line
   el("rSummary").textContent =
     `Score: ${score}/${qs.length} (${pct}%). ` +
     (pct>=85 ? "Strong understanding across many skills."
       : pct>=60 ? "Developing understanding with some areas to strengthen."
       : "Still building confidence — very normal at this stage.");
 
-  const strengths = qs.filter((_,i)=>results01[i]===1).map(q=>q.q.replace(/^[^ ]+ /,""));
-  const nextSteps  = qs.filter((_,i)=>results01[i]===0).map(q=>q.q.replace(/^[^ ]+ /,""));
+  // Unanswered
+  el("rUnanswered").textContent = unanswered.length
+    ? unanswered.map(n=>`Q${n}`).join(", ")
+    : "None";
 
+  // Skill stats (same logic as Parent Summary)
+  const skillStats = {};
+  qs.forEach((item, idx)=>{
+    const sk = item.skill || "Other";
+    if(!skillStats[sk]) skillStats[sk] = { total:0, correct:0 };
+    skillStats[sk].total++;
+    if(gotCorrect[idx]) skillStats[sk].correct++;
+  });
+
+  const skillsSorted = Object.entries(skillStats)
+    .map(([skill, s])=>({
+      skill,
+      correct: s.correct,
+      total: s.total,
+      rate: s.total ? (s.correct / s.total) : 0
+    }))
+    .sort((a,b)=>{
+      if(b.rate !== a.rate) return b.rate - a.rate;
+      return b.total - a.total;
+    });
+
+  const strengths = skillsSorted.filter(x=>x.rate >= 0.75).slice(0,3);
+  const focus     = skillsSorted.filter(x=>x.rate < 0.75).slice(0,3);
+
+  // Strengths list (skills)
   el("rStrengths").innerHTML = strengths.length
-    ? strengths.map(s=>`<li>${s}</li>`).join("")
-    : "<li>Showing effort and persistence.</li>";
+    ? strengths.map(x=>{
+        const pctSkill = Math.round(x.rate * 100);
+        return `<li><b>${x.skill}</b> — ${x.correct}/${x.total} correct (${pctSkill}%)</li>`;
+      }).join("")
+    : "<li>Great effort and persistence.</li>";
 
-  el("rNext").innerHTML = unanswered.length
-    ? `<li><b>Finish unanswered questions first:</b> ${unanswered.map(n=>`Q${n}`).join(", ")}</li>` +
-      (nextSteps.length ? nextSteps.map(s=>`<li>${s.replace(/^[^ ]+ /,"")}</li>`).join("") : "")
-    : (nextSteps.length ? nextSteps.map(s=>`<li>${s.replace(/^[^ ]+ /,"")}</li>`).join("") : "<li>Continue practising to build confidence.</li>");
+  // Next steps list (unanswered + focus skills)
+  const unansweredItem = unanswered.length
+    ? `<li><b>Finish unanswered questions first:</b> ${unanswered.map(n=>`Q${n}`).join(", ")}</li>`
+    : "";
+
+  const focusItems = focus.length
+    ? focus.map(x=>{
+        const pctSkill = Math.round(x.rate * 100);
+        return `<li><b>${x.skill}</b> — ${x.correct}/${x.total} correct (${pctSkill}%). Practise a few more examples.</li>`;
+      }).join("")
+    : "<li>Keep practising to build confidence.</li>";
+
+  el("rNext").innerHTML = unansweredItem + focusItems;
 }
 
 /* ================= SAVE TO SHEET ================= */
 async function saveResult(pct){
   el("saveStatus").textContent = "Saving your result to Magic Math Master records…";
 
-  // 1 = correct, 0 = incorrect (answered but wrong), -1 = unanswered (blank)
   const answers = qs.map((_, idx) => {
     if (gotCorrect[idx]) return 1;
     return isAnswered(idx) ? 0 : -1;
@@ -856,7 +920,7 @@ async function saveResult(pct){
       headers:{ "Content-Type":"text/plain;charset=utf-8" },
       body:JSON.stringify({
         group:"Prep–2",
-        level: student.grade,     // required by your Apps Script
+        level: student.grade,
         theme:"Animals",
         name: student.name,
         grade: student.grade,
@@ -867,7 +931,6 @@ async function saveResult(pct){
         answers: answers,
         unansweredQs: getUnanswered(),
 
-        // backward-compatible
         perQuestion01: gotCorrect.map(v=>v?1:0),
 
         pageUrl: location.href,
@@ -928,17 +991,35 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/* Keyboard:
-   Enter = Check, then Enter again = Next
-   Shift+Enter = Previous
-   Ctrl/Cmd+Enter = Next (skip checking)
+/* ================= KEYBOARD =================
+   Start screen: Enter = Start (when ready)
+   Quiz:
+     Enter = Check, then Enter again = Next
+     Shift+Enter = Previous
+     Ctrl/Cmd+Enter = Next (skip checking)
 */
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Enter") return;
 
   const quizVisible =
     !el("qa").classList.contains("hide") && el("qa").style.display !== "none";
-  if (!quizVisible) return;
+
+  const startVisible =
+    el("profileBox").style.display !== "none" &&
+    el("startButtons").style.display !== "none";
+
+  // ✅ Start screen Enter -> Start
+  if(!quizVisible && startVisible){
+    const btn = el("startBtn");
+    if(btn && !btn.disabled){
+      e.preventDefault();
+      start();
+    }
+    return;
+  }
+
+  // ✅ Quiz keys
+  if(!quizVisible) return;
 
   e.preventDefault();
 
